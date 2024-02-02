@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>search_result</title>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link
+      href="{{ url_for('static', filename='css/styles.css') }}"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        text-align: center;
+        padding: 20px;
+      }
+
+      .search_result {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+        padding: 20px;
+      }
+
+      h2 {
+        margin: 0 0 10px 0;
+      }
+
+      .Result,
+      .gpt_answer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .Result img,
+      .gpt_answer img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 20px;
+      }
+
+      p {
+        margin: 0;
+        padding: 10px;
+        text-align: left;
+        font-weight: bold;
+      }
+
+      .Result p,
+      .gpt_answer p {
+        flex-basis: 100%;
+        text-align: left;
+        font-weight: normal;
+      }
+
+      /* Add style for each result item */
+      .result-item {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Search Engines</h1>
+    <div class="search_result">
+      <h2>original_result</h2>
+      <div class="Result">
+        {% for item in onebon %}
+        <p class="result-item">{{ item }}</p>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="search_result">
+      <h2>search_result</h2>
+      <div class="Result">
+        {% for item in result %}
+        <p class="result-item">{{ item }}</p>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="search_result">
+      <h2>gpt_answer</h2>
+      <div class="gpt_answer">
+        <p>{{ gpt_answer }}</p>
+      </div>
+    </div>
+    <div class="container my-5">
+      <a class="container btn btn-outline-primary" href="/">돌아가기</a>
+    </div>
+  </body>
+</html>

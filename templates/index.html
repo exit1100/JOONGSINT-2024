@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Joongsint - Open-Source Intelligence Solution</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="static/images/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  </head>
+  <body>
+    <!-- Responsive navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container px-lg-5">
+        <a class="navbar-brand" href="#!">JoongSint</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#!">Home</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Header-->
+    <header class="py-5">
+      <div class="container px-lg-5">
+        <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+          <div class="m-4 m-lg-5">
+            <h1 class="display-5 fw-bold">welcome Joongsint!</h1>
+            <p class="fs-4">
+              Gather all the information you need in one place with our OSINT
+              webpage that offers comprehensive insights using data collected
+              from network, SNS, Domain, search engines, CVE, and GPT.
+              <p>당신이 원하는 모든 정보를 한 곳에서 모아보세요. 네트워크, SNS,
+                Domain, 검색 엔진, CVE 및 GPT에서 수집한 데이터로 더 나은 인사이트를
+                제공하는 OSINT 웹 페이지입니다.</p>
+            </p>
+            <div class="intro-btn gap-5 justify-content-sm-center">
+                <a class="btn btn-primary btn-lg" data-bs-toggle="modal" href="#Manual">Manual</a>
+                <a class="btn btn-primary btn-lg" data-bs-toggle="modal"  href="#Option">Option</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Page Content-->
+    <section class="pt-4">
+      <div class="container px-lg-5">
+        <!-- Page Features-->
+        <div class="row gx-lg-5">
+          <div class="col-lg-6 col-xxl-4 mb-5">
+            <div class="card bg-light border-0 h-100">
+              <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                <div
+                  class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"
+                >
+                  <i class="bi bi-collection"></i>
+                </div>
+                <h2 class="fs-4 fw-bold">Search SNS</h2>
+                <p class="mb-0">
+                    Ability to collect and display data from Instagram, Facebook, and Twitter!
+                </p>
+                <form class="d-grid mt-4" form action="/sns_result" method="POST">
+                  <button class="btn btn-outline-primary" type="submit">search</button>
+                </form>
+                <dvi class="d-flex align-items-center justify-content-between text-xs">
+                  <form class="d-grid mt-4" form action="/insta_result" method="POST">
+                    <button class="btn btn-outline-primary" type="submit">instagram</button>
+                  </form>
+                  <form class="d-grid mt-4" form action="/facebook_result" method="POST">
+                    <button class="btn btn-outline-primary" type="submit">facebook</button>
+                  </form>
+                  <form class="d-grid mt-4" form action="/twitter_result" method="POST">
+                    <button class="btn btn-outline-primary" type="submit">twitter</button>
+                  </form>
+                </dvi>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-xxl-4 mb-5">
+            <div class="card bg-light border-0 h-100">
+              <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                <div
+                  class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"
+                >
+                  <i class="bi bi-cloud-download"></i>
+                </div>
+                <h2 class="fs-4 fw-bold">Search Domain</h2>
+                <p class="mb-0">
+                    Enter Domain to search for keywords and open phone numbers and emails for that Domain and sub-Domain!
+                </p>
+                <form class="d-grid mt-4" form action="/domain_result" method="POST">
+                  <button class="btn btn-outline-primary" type="submit">search</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-xxl-4 mb-5">
+            <div class="card bg-light border-0 h-100">
+              <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                <div
+                  class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"
+                >
+                  <i class="bi bi-card-heading"></i>
+                </div>
+                <h2 class="fs-4 fw-bold">Search Engines</h2>
+                <p class="mb-0">
+                    Collect open information through Google and Naver's search engines and data through Chat GPT!
+                </p>
+                <form class="d-grid mt-4" form action="/search_result" method="POST">
+                  <button class="btn btn-outline-primary" type="submit">search</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-xxl-4 mb-5">
+            <div class="card bg-light border-0 h-100">
+              <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                <div
+                  class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"
+                >
+                  <i class="bi bi-bootstrap"></i>
+                </div>
+                <h2 class="fs-4 fw-bold">Search Network</h2>
+                <p class="mb-0">
+                    You can collect network information using IP, WhoIs, nmap, server vs. version, netblock, traceroute, and more!
+                </p>
+                <form class="d-grid mt-4" form action="/network_result" method="POST">
+                  <button class="btn btn-outline-primary" type="submit">search</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-xxl-4 mb-5">
+            <div class="card bg-light border-0 h-100">
+              <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                <div
+                  class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"
+                >
+                  <i class="fab fa-github"></i>
+                </div>
+                <h2 class="fs-4 fw-bold">Search Github</h2>
+                <p class="mb-0">
+                  Enter a GitHub account and retrieve data from all of its repositories!
+                </p>
+                <form class="d-grid mt-4" form action="/github_result" method="POST">
+                  <button class="btn btn-outline-primary" type="submit">search</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-xxl-4 mb-5">
+            <div class="card bg-light border-0 h-100">
+              <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                <div
+                  class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"
+                >
+                  <i class="fas fa-flag"></i>
+                </div>
+                <h2 class="fs-4 fw-bold">Report</h2>
+                <p class="mb-0">
+                  Process stacked data and provide it to users.
+                </p>
+                <!-- <form class="d-grid mt-4" form action="/report_result" method="POST">
+                  <a class="container btn btn-outline-primary" href="/report">report</a>
+                  <button class="btn btn-outline-primary" type="submit">report</button>
+                </form> -->
+                <form class="d-grid mt-4" form action="/reportlist_result" method="POST">
+                  <button class="btn btn-outline-primary" type="submit">report</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="container px-lg-5">
+    <div class="mb-5">
+        <div class=" bg-light border-0 h-100 shadow-l">
+          <div class="text-center p-4 p-lg-5 pt-0 pt-lg-0">
+            <div
+              class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"
+            >
+              <i class="bi bi-code"></i>
+            </div>
+            <h2 class="fs-4 fw-bold">Total Check</h2>
+            <p class="mb-0">
+                Get data from the network, Domain, SNS, and search engines of the companies and users you want to search for using all of the features at once!
+            </p>
+            <div class="d-grid mt-4">
+                <a class="btn btn-outline-primary" href="#!">search</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">
+          Copyright &copy; Your Website 2023
+        </p>
+      </div>
+    </footer>
+
+    <!-- Option modal popup-->
+    <div
+      class="portfolio-modal modal fade"
+      id="Option"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="close-modal" data-bs-dismiss="modal">
+            <img src="/static/images/close-icon.svg" alt="Close modal" />
+          </div>
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-lg-8">
+                <div class="modal-body">
+                  <!-- Project details-->
+                  <h2 class="text-uppercase">Setting Value</h2>
+                  <p class="item-intro text-muted">
+                    데이터 수집에 필요한 값들을 입력해주세요
+                  </p>
+                  <div class="col-md-auto">
+                    <input type="checkbox" name="ck_folder" value="true"> <b>인덱싱 폴더 경로 지정</b><br>
+                    <div id="folder_frame" style="display: none;">
+                      <div class="d-flex form-label justify-content-between"> 
+                        <!-- Keyword address input-->
+                        <input
+                          class="form-control"
+                          id="folder"
+                          placeholder="ex) Folder Name *"
+                        />
+                        <button
+                          class="btn btn-primary btn-xl text-uppercase mx-sm-2"
+                          type="button"
+                          onclick="setCookies('folder');"
+                          name="folder_btn"
+                        >
+                          SAVE
+                        </button>
+                      </div>
+                    </div>
+                    <br>
+
+                    특정 키워드 필터링
+                    <div class="d-flex form-label justify-content-between"> 
+                      <!-- Keyword address input-->
+                      <input
+                        class="form-control"
+                        id="keyword"
+                        placeholder="ex) keyword1, keyword2, keyword3 ..."
+                      />
+                      <button
+                        class="btn btn-primary btn-xl text-uppercase mx-sm-2"
+                        type="button"
+                        onclick="setCookies('keyword');"
+                        name="keyword_btn"
+                      >
+                        SAVE
+                      </button>
+                    </div>
+
+
+                    검색할 프로필 ID
+                    <div class="d-flex form-label justify-content-between">
+                      
+                      <!-- Name input-->
+                      <input
+                        class="form-control"
+                        id="NAME"
+                        type="text"
+                        placeholder="Your Name *"
+                        
+                      />
+                      <button
+                        class="btn btn-primary btn-xl text-uppercase mx-sm-2"
+                        type="button"
+                        onclick="setCookies('NAME');"
+                      >
+                        SAVE
+                      </button>
+                    </div>
+                    <!-- add -->
+                    <!-- Instagram id , pw
+                    <div class="d-flex form-label">
+                      <div class="col-sm-5">
+                          <input type="text" class="form-control form-control-user" id="insta_id" placeholder="Instagram_id">
+                      </div>
+                      <div class="col-sm-5 mx-sm-3">
+                          <input type="text" class="form-control form-control-user " id="insta_pw" placeholder="Instagram_pw">
+                      </div>
+
+                      <button
+                      class="btn btn-primary btn-xl text-uppercase mx-sm-2"
+                      type="button"
+                      onclick="setCookies('insta_id'); setCookies('insta_pw');"
+                      >
+                      <i class="fas fa-xmark me-1"></i>
+                      SAVE
+                      </button>
+                    </div> -->
+                      <!-- add -->
+                    <!-- facebook id , pw
+                    <div class="d-flex form-label">
+                      <div class="col-sm-5">
+                          <input type="text" class="form-control form-control-user" id="face_id" placeholder="facebook_id">
+                      </div>
+                      <div class="col-sm-5 mx-sm-3">
+                          <input type="text" class="form-control form-control-user" id="face_pw" placeholder="facebook_pw">
+                      </div>
+
+                      <button
+                      class="btn btn-primary btn-xl text-uppercase mx-sm-2"
+                      type="button"
+                      onclick="setCookies('face_id'); setCookies('face_pw');"
+                      >
+                      <i class="fas fa-xmark me-1"></i>
+                      SAVE
+                      </button>
+                    </div> -->
+
+                    검색할 Domain을 적어주세요
+
+                    <div class="d-flex form-label justify-content-between"> 
+                      <!-- Email address input-->
+                      <input
+                        class="form-control"
+                        id="Domain"
+
+                        placeholder="ex) www.joongsint.com"
+
+                      />
+
+                      <button
+                        class="btn btn-primary btn-xl text-uppercase mx-sm-2"
+                        type="button"
+                        onclick="setCookies('Domain');"
+                      >
+                        SAVE
+                      </button>
+                    </div>
+                    <!-- search engine input-->
+
+                    검색엔진에 적용할 단어를 적어주세요
+                    <div class="d-flex form-label justify-content-between">
+                      
+                      <input
+                        class="form-control"
+                        id="search"
+                        placeholder="ex) joongsint"
+                        
+                      />
+                      <button
+                        class="btn btn-primary btn-xl text-uppercase mx-sm-2"
+                        type="button"
+                        onclick="setCookies('search');"
+                      >
+                        SAVE
+                      </button>
+
+                    </div>
+                  </div>
+                  <br><br>
+                  <h2 class="text-uppercase mt-5">Save Value</h2>
+                  <p class="item-intro text-muted">
+                    저장한 값을 확인 하세요.
+                  </p>
+
+                  <div class="card mt-5">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center justify-content-between text-xs">
+                        <div class="fw-500">Folder Path</div>
+                        <div id="folder-value"> </div>
+                      </div>
+                      <hr>  
+                      <div class="d-flex align-items-center justify-content-between text-xs">
+                        <div class="fw-500">Keyword Filter</div>
+                        <div id="keyword-value"> </div>
+                      </div>
+                      <hr>
+                      <div class="d-flex align-items-center justify-content-between text-xs">
+                        <div class="fw-500">Profile ID</div>
+                        <div id="cookie-value"> </div>
+                      </div>
+                      <hr>
+                      <!-- <div class="d-flex align-items-center justify-content-between text-xs">
+                        <div class="fw-500">Instagram Login info</div>
+                        <div>
+                          <div class="d-flex">
+                            instagram id : 
+                            <div id="insta_info_id"> </div>
+                          </div>
+                          <div class="d-flex">
+                            instagram pw : 
+                            <div id="insta_info_pw"> </div>
+                          </div>
+                        </div>
+                        
+                      </div> -->
+                      <!-- <div class="d-flex align-items-center justify-content-between text-xs">
+                        <div class="fw-500">facebook Login info</div>
+                        <div>
+                          <div class="d-flex">
+                            facebook id : 
+                            <div id="face_info_id"> </div>
+                          </div>
+                          <div class="d-flex">
+                            facebook pw : 
+                            <div id="face_info_pw"> </div>
+                          </div>
+                        </div>
+                      </div> -->
+                      <div class="d-flex align-items-center justify-content-between text-xs">
+                        <div class="fw-500">Domain</div>
+                        <div id="Domain-value"> </div>
+                      </div>
+                      <hr  >
+                      <div class="d-flex align-items-center justify-content-between text-xs">
+                        <div class="fw-500">Search Engine Query</div>
+                        <div id="search-value"> </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Manual modal popup-->
+    <div
+      class="portfolio-modal modal fade"
+      id="Manual"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="close-modal" data-bs-dismiss="modal">
+            <img src="/static/images/close-icon.svg" alt="Close modal" />
+          </div>
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-lg-8">
+                <div class="modal-body">
+                  <!-- Project details-->
+                  <h1 class="text-uppercase">Joongsint Module Manual</h1>
+                  <div>
+                    <h4>저희 Joongsint를 사용하시려면 설치해야 할 모듈들이 존재합니다.</h4>
+                    <h4>우선, Joonhsint에서 제공하는 모듈 파일들을 설치해 주세요.</h4>
+                    <h4>그런 다음 원활한 사용을 위해 추가적으로 설치 명령어와 설치 파일을 사용하여 모듈을 설치해 주세요.</h4>
+                    <p></p>※ python3를 권장하며, python2를 사용한다면 pip3가 아닌 pip를 통해 설치합니다.</p><br>
+                    <h5>공통 설치 명령어</h5>
+                    <pre><code>pip3 install flask requests beautifulsoup4</code></pre>
+                    <h5>Search SNS & Search Domain 사용을 위해…</h5>
+                    <pre><code>pip3 install selenium</code></pre>
+                    <h5>Search Engines 사용을 위해…</h5>
+                    <pre><code>pip3 install google-api-python-client</code></pre>
+                    <pre><code>pip3 install openai</code></pre>
+                    <h5>Search Network & CVE 사용을 위해…</h5>
+                    <pre><code>Nmap 설치</code></pre>
+                    <pre><code>pip3 install dnspython</code></pre>
+                    <pre><code>pip3 install python-whois</code></pre>
+                    <p>매뉴얼에 따른 모든 모듈에 대한 설치가 완료되었다면</p>
+                    <p>터미널을 통해 <code>py main.py</code> 또는 <code>python main.py</code> 또는 <code>flask run</code>을 통해 실행하고 서비스를 이용하세요.</p>
+                    <p>원활한 서비스 이용이 불가능하다면 관리자 이메일을 통해 문의 바랍니다.</p>
+                    <p>관리자 이메일: wpgur0510@gmail.com</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="static/js/scripts.js"></script>
+
+    <script>
+      const NameValue = getCookie('NAME');
+      // const instaidValue = getCookie('insta_id');
+      // const instapwValue = getCookie('insta_pw');
+      // const faceidValue = getCookie('face_id');
+      // const facepwValue = getCookie('face_pw');
+      const DomainValue = getCookie('Domain');
+      const seaerchValue = getCookie('search');
+      const keywordValue = getCookie('keyword');
+      const FolderName = getCookie('folder');
+      document.getElementById('folder-value').textContent=FolderName || 'No Folder Path.';
+      document.getElementById('keyword-value').textContent=keywordValue || 'No keyword filter.';
+      document.getElementById('cookie-value').textContent=NameValue || 'No cookie found.';
+      // document.getElementById('insta_info_id').textContent=instaidValue || 'No cookie found.';
+      // document.getElementById('insta_info_pw').textContent=instapwValue || 'No cookie found.';
+      // document.getElementById('face_info_id').textContent=faceidValue || 'No cookie found.';
+      // document.getElementById('face_info_pw').textContent=facepwValue || 'No cookie found.';
+      
+      document.getElementById('Domain-value').textContent=DomainValue || 'No cookie found.';
+      document.getElementById('search-value').textContent=seaerchValue || 'No cookie found.';
+
+      // checkbox 상태 변경 시 이벤트 핸들러 함수
+      function handleCheckboxChange() {
+        var checkbox = document.querySelector('input[name="ck_folder"]');
+        var keywordInput = document.getElementById('folder_frame');
+        
+        if (checkbox.checked) {
+            keywordInput.style.display = 'block'; // 보이게 함
+          } else {
+            keywordInput.style.display = 'none'; // 숨김
+          }
+        }
+
+      // checkbox 변경 이벤트 리스너 등록
+      var checkbox = document.querySelector('input[name="ck_folder"]');
+      checkbox.addEventListener('change', handleCheckboxChange);
+    </script>
+
+  </body>
+</html>

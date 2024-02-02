@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Report Module</title>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link
+      href="{{ url_for('static', filename='css/styles.css') }}"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        text-align: center;
+        padding: 20px;
+      }
+
+      .report-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+        padding: 20px;
+      }
+
+      h2 {
+        margin: 0 0 10px 0;
+      }
+
+      .report-info {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .report-info img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 20px;
+      }
+
+      p,
+      pre {
+        margin: 0;
+        padding: 10px;
+        text-align: left;
+        font-weight: bold;
+      }
+
+      .report-info p {
+        flex-basis: 100%;
+        text-align: left;
+        font-weight: normal;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        width: 20%;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Report - {{report_select}}</h1>
+    <div class="report-card">
+      <div style="display: flex; justify-content: space-between">
+        <span style="float: left; font-size: 22px">Path: {{log_path}}</span>
+        <form action="/reportPDF_result" method="POST">
+          <button class="btn btn-outline-primary btn-sm" type="submit">
+            PDF로 변환
+          </button>
+        </form>
+      </div>
+      <hr />
+      <h3>LOG - Domain Module</h3>
+      <div class="report-info">
+        <table>
+          <tr>
+            <th style="width: 20%">URL</th>
+            <th style="width: 20%">Filter Keyword</th>
+            <th style="width: 20%">Emails</th>
+            <th style="width: 20%">Phones</th>
+            <th style="width: 20%">Keywords</th>
+          </tr>
+          {% for domain_dic in domain %} {% for url, items in domain_dic.items()
+          %} {% for item in items %}
+          <tr>
+            <td><a href="{{ url }}">{{ url }}</a></td>
+            <td>{{ item['filter_keyword'] }}</td>
+            <td>{{ item['emails'] }}</td>
+            <td>{{ item['phones'] }}</td>
+            <td>
+              <div class="truncate">
+                {{ item['keywords'][:10] }}{% if item['keywords']|length > 10
+                %}...{% endif %}
+              </div>
+              {% if item['keywords']|length > 10 %}
+              <div class="full-keywords" style="display: none">
+                {{ item['keywords'] }}
+              </div>
+              <a href="#" class="more-link">더보기</a>
+              <a href="#" class="less-link" style="display: none">접기</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %} {% endfor %} {% endfor %}
+        </table>
+      </div>
+      <hr />
+      <br />
+      <h3>LOG - Network Module</h3>
+      <div class="report-info">
+        <table>
+          <tr>
+            <th style="width: 20%">ip</th>
+            <th style="width: 20%">hostname</th>
+            <th style="width: 20%">open port</th>
+            <th style="width: 20%">server version</th>
+            <th style="width: 20%">CVE</th>
+          </tr>
+          {% for net in network %}
+          <tr>
+            <td>{{ net['nmap_result']['ip_address'] }}</td>
+            <td>{{ net['nmap_result']['rdns_records'] }}</td>
+            <td>{{ net['nmap_result']['port_info'] }}</td>
+            <td>{{ net['server_info'] }}</td>
+            <td>
+              {% for item_list in net['cve_info'] %} {% for item in item_list %}
+              <a href="https://nvd.nist.gov/vuln/detail/{{ item['CVE ID'] }}"
+                >{{ item['CVE ID'] }}</a
+              ><br />
+              {% endfor %} {% endfor %}
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      <hr />
+      <br />
+      <h3>LOG - Github Module</h3>
+      <!-- Report Git -->
+      <table>
+        <tr>
+          <th style="width: 5%">who</th>
+          <th style="width: 25%">repository</th>
+          <th style="width: 25%">path</th>
+          <th style="width: 45%">content</th>
+        </tr>
+        {% for git_dic in github %} {% for url, items in git_dic.items()%} {%
+        for item in items %}
+        <tr>
+          <td>{{who}}</td>
+          <td>{{url}}</td>
+          <td>
+            <a
+              href="https://github.com/{{who}}/{{url}}/blob/master/{{ item['path'] }}"
+              >{{ item['path'] }}</a
+            >
+          </td>
+          <td>{{ item['content'] }}</td>
+        </tr>
+        {% endfor %} {% endfor %} {% endfor %}
+      </table>
+      <hr />
+      <br />
+
+      <form class="d-grid mt-4" form action="/reportlist_result" method="POST">
+        <button class="btn btn-outline-primary" type="submit">돌아가기</button>
+      </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('.more-link').click(function (e) {
+          e.preventDefault();
+          var keywordsContainer = $(this).siblings('.truncate');
+          var fullKeywords = $(this).siblings('.full-keywords').text();
+          keywordsContainer.text(fullKeywords);
+          $(this).hide();
+          $(this).siblings('.less-link').show();
+        });
+
+        $('.less-link').click(function (e) {
+          e.preventDefault();
+          var keywordsContainer = $(this).siblings('.truncate');
+          var truncatedKeywords =
+            $(this).siblings('.full-keywords').text().slice(0, 10) + '...';
+          keywordsContainer.text(truncatedKeywords);
+          $(this).hide();
+          $(this).siblings('.more-link').show();
+        });
+      });
+    </script>
+  </body>
+</html>

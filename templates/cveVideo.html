@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>CVE Video</title>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link
+      href="{{ url_for('static', filename='css/styles.css') }}"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        text-align: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+
+      .form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center; /* Add this line */
+      }
+
+      select {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+      }
+      .cve-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="form-container">
+        <div class="cve-card">
+          <h2>CVE 2021-41773</h2>
+          <video width="800" height="480" controls>
+            <source
+              src="{{ url_for('static', filename='./cveVideo/CVE-2021-41773.mp4') }}"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+          <br /><br />
+          A flaw was found in a change made to path normalization in Apache HTTP
+          Server 2.4.49. An attacker could use a path traversal attack to map
+          URLs to files outside the directories configured by Alias-like
+          directives. If files outside of these directories are not protected by
+          the usual default configuration "require all denied", these requests
+          can succeed. If CGI scripts are also enabled for these aliased pathes,
+          this could allow for remote code execution. This issue is known to be
+          exploited in the wild. This issue only affects Apache 2.4.49 and not
+          earlier versions. The fix in Apache HTTP Server 2.4.50 was found to be
+          incomplete, see CVE-2021-42013.
+          <div class="container my-5">
+            <a class="container btn btn-outline-primary" href="/">홈으로</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

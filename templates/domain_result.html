@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Domain Module</title>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link
+      href="{{ url_for('static', filename='css/styles.css') }}"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        text-align: center;
+        padding: 20px;
+      }
+
+      .domain-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+        padding: 20px;
+      }
+
+      h2 {
+        margin: 0 0 10px 0;
+      }
+
+      .keyword-info,
+      .phone-info,
+      .email-info {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .keyword-info img,
+      .phone-info img,
+      .email-info img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 20px;
+      }
+
+      p,
+      pre {
+        margin: 0;
+        padding: 10px;
+        text-align: left;
+        font-weight: bold;
+      }
+
+      .keyword-info p,
+      .phone-info p,
+      .email-info p {
+        flex-basis: 100%;
+        text-align: left;
+        font-weight: normal;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Domain Module</h1>
+    <pre style="margin-left: 15px">
+ URL 크롤링 로그 경로 : {{folder_path}}  |  키워드 필터링 : {{ filter_keyword }} </pre
+    >
+    <div class="domain-card">
+      <h2>email</h2>
+      <div class="email-info">
+        <!-- <img src="{{ result['email'] }}" alt="profile picture" /> -->
+        <p>{{ result['email'] }}</p>
+      </div>
+    </div>
+    <div class="domain-card">
+      <h2>phone</h2>
+      <div class="phone-info">
+        <!-- <img src="{{ result['phone'] }}" alt="profile picture" /> -->
+        <p>{{ result['phone'] }}</p>
+      </div>
+    </div>
+    <div class="domain-card">
+      <h2>keyword</h2>
+      <div class="keyword-info">
+        <!--<img src="{{ result['keyweord'] }}" alt="profile picture" />-->
+        <p>{{ result['keyword'] }}</p>
+      </div>
+    </div>
+    <div class="domain-card">
+      <h2>search URL</h2>
+      <div class="keyword-info">
+        <p>{{ result['search_url'] }}</p>
+      </div>
+    </div>
+    <div class="container my-5">
+      <a class="container btn btn-outline-primary" href="/">돌아가기</a>
+    </div>
+  </body>
+</html>

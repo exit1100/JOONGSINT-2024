@@ -1,0 +1,75 @@
+<!-- templates/loading.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Loading...</title>
+    <style>
+      /* Center the spinner and loading message */
+      #loading {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      /* Style the spinner */
+      .spinner {
+        margin: 0 auto;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border-top: 5px solid #fff;
+        border-right: 5px solid #fff;
+        border-bottom: 5px solid #fff;
+        border-left: 5px solid #ccc;
+        animation: spin 1s infinite linear;
+      }
+
+      /* Animate the spinner */
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loading">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+
+    <script>
+      // // Wait for the page to finish loading
+      // document.addEventListener('DOMContentLoaded', function (event) {
+      //   // Make an AJAX request to get the result
+      //   fetch('/hello')
+      //     .then(function (response) {
+      //       return response.text();
+      //     })
+      //     .then(function (result) {
+      //       // Replace the loading screen with the result
+      //       document.querySelector('body').innerHTML = result;
+      //     });
+      // });
+
+      $(function () {
+        $.ajax({
+          type: 'POST',
+          url: '/long_task',
+          success: function (result) {
+            $('#loading').fadeOut();
+            $('#result').text(result);
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

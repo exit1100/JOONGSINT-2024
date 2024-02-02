@@ -1,0 +1,210 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HI</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <script src="static/js/eventListener.js"></script>
+  </head>
+  <body>
+    <!-- 쿠키 값 저장 -->
+    <div class="input-group" style="margin-top: 1.5%">
+      <div class="h1 text-dark font-weight-bold text-center">
+        OSINT 도구입니다. 검색할 이름을 입력후 저장해주세요
+      </div>
+      <form class="">
+        <div class="input">
+          <input
+            type="text"
+            id="NAME"
+            name="NAME"
+            aria-describedby="basic-addon2"
+            style="margin-top: 1%"
+          />
+
+          <button
+            class="btn btn-primary"
+            type="button"
+            onclick="setCookies('NAME')"
+          >
+            저장
+          </button>
+        </div>
+      </form>
+    </div>
+    <br />
+    <br />
+
+    <div>
+      저장된(찾으려는) 이름 확인 :
+      <div id="cookie-value">No cookie found</div>
+    </div>
+
+    <script>
+      const NameValue = getCookie('NAME');
+      const instaidValue = getCookie('insta_id');
+      const instapwValue = getCookie('insta_pw');
+      const faceidValue = getCookie('face_id');
+      const facepwValue = getCookie('face_pw');
+
+      document.getElementById('cookie-value').textContent =
+        NameValue || 'No cookie found.';
+      document.getElementById('insta_info_id').textContent =
+        instaidValue || 'No cookie found.';
+      document.getElementById('insta_info_pw').textContent =
+        instapwValue || 'No cookie found.';
+      document.getElementById('face_info_id').textContent =
+        faceidValue || 'No cookie found.';
+      document.getElementById('face_info_pw').textContent =
+        facepwValue || 'No cookie found.';
+    </script>
+    <!-- <script>
+      // Display the value of NameValue on the page
+      var NameValueElem = document.getElementById('cookie-value');
+      NameValueElem.textContent = NameValue || 'No cookie found.';
+
+      // Display the value of instaidValue on the page
+      var InstaidValueElem = document.getElementById('insta_info_id');
+      InstaidValueElem.textContent = instaidValue || 'No cookie found.';
+
+      // // Display the value of the instapwValue on the page
+      var instapwValueElem = document.getElementById('insta_info_pw');
+      instapwValueElem.textContent = instapwValue || 'No cookie found.';
+
+      // // Display the value of the faceidValue on the page
+      var FaceidValueElem = document.getElementById('face_info_id');
+      FaceidValueElem.textContent = faceidValue || 'No cookie found.';
+
+      // // Display the value of the facepwValue on the page
+      var facepwValueElem = document.getElementById('face_info_pw');
+      facepwValueElem.textContent = facepwValue || 'No cookie found.';
+    </script> -->
+
+    <!-- sns 데이터 넘기는 구간 -->
+    <div class="moduels">
+      <table class="read_table">
+        <tr>
+          <td colspan="4" class="read_title">SNS</td>
+        </tr>
+        <tr>
+          <td class="read_id">작성자</td>
+          <td class="read_id2">admin</td>
+        </tr>
+
+        <tr>
+          <td colspan="4" class="read_content" valign="top">
+            <div class="input-group" style="margin-top: 1.5%">
+              <div class="h1 text-dark font-weight-bold text-center">
+                instagram ID,PW 입력
+              </div>
+              <div class="input">
+                <input
+                  type="text"
+                  name="insta_id"
+                  id="insta_id"
+                  placeholder="ID"
+                />
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  onclick="setCookies('insta_id')"
+                >
+                  저장
+                </button>
+                <input
+                  type="text"
+                  name="insta_pw"
+                  id="insta_pw"
+                  placeholder="PW"
+                />
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  onclick="setCookies('insta_pw')"
+                >
+                  저장
+                </button>
+              </div>
+              <div>
+                insta login 정보
+                <div id="insta_info_id"></div>
+                <div id="insta_info_pw"></div>
+              </div>
+              <br />
+              <br />
+              <div class="h1 text-dark font-weight-bold text-center">
+                facebook ID,PW 입력
+              </div>
+              <div class="input">
+                <input
+                  type="text"
+                  name="face_id"
+                  id="face_id"
+                  placeholder="ID"
+                />
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  onclick="setCookies('face_id')"
+                >
+                  저장
+                </button>
+                <input
+                  type="text"
+                  name="face_pw"
+                  id="face_pw"
+                  placeholder="PW"
+                />
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  onclick="setCookies('face_pw')"
+                >
+                  저장
+                </button>
+              </div>
+              <div>
+                페이스북 정보!
+                <div id="face_info_id"></div>
+                <div id="face_info_pw"></div>
+              </div>
+              <br />
+              <br />
+
+              <form class="d-none" form action="/sns_result" method="POST">
+                <button class="btn btn-primary" type="submit">검색</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <!-- 사칙연산 테스트 구간 -->
+
+      <div colspan="4" class="cal" valign="top" align="center">
+        <h1>사칙연산</h1>
+        <form action="/result" method="POST">
+          <label for="num1">첫 번째 숫자 입력:</label>
+          <input type="number" name="num1" id="num1" required />
+          <br />
+          <label for="num2">두 번째 숫자 입력:</label>
+          <input type="number" name="num2" id="num2" required />
+          <br />
+          <label for="operation">연산:</label>
+          <select name="operation" id="operation" required>
+            <option value="add">더하기</option>
+
+            <option value="subtract">빼기</option>
+            <option value="multiply">곱하기</option>
+            <option value="divide">나누기</option>
+          </select>
+          <br />
+          <button type="submit">계산</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

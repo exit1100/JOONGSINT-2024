@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Network Module</title>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link
+      href="{{ url_for('static', filename='css/styles.css') }}"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        text-align: center;
+        padding: 20px;
+      }
+
+      .network-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+        padding: 20px;
+      }
+
+      h2 {
+        margin: 0 0 10px 0;
+      }
+
+      .nmap_info,
+      .whois_info,
+      .server_info,
+      .hostname,
+      .cve_info {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .whois_info img,
+      .server_info img,
+      .nmap_info img,
+      .hostname img,
+      .cve_info img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 20px;
+      }
+
+      p {
+        margin: 0;
+        padding: 10px;
+        text-align: left;
+        font-weight: bold;
+      }
+
+      .whois_info p,
+      .server_info p,
+      .nmap_info p,
+      .hostname p,
+      .cve_info p {
+        flex-basis: 100%;
+        text-align: left;
+        font-weight: normal;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Network Module</h1>
+    <div class="network-card">
+      <h2>Ip_Info</h2>
+      <div class="hostname">
+        <p>{{ ip_info }}</p>
+      </div>
+    </div>
+    <div class="network-card">
+      <h2>Whois_Info</h2>
+      <div class="whois_info">
+        <p>
+          <strong>Domain Name:</strong> {{ whois_info['domain_name'] }}<br />
+          <strong>Whois server:</strong> {{ whois_info['whois_server'] }}<br />
+          <strong>Creation date:</strong> {{ whois_info['creation_date'] }}<br />
+          <strong>Updated date:</strong> {{ whois_info['updated_date'] }}<br />
+          <strong>Expiration date:</strong> {{ whois_info['expiration_date']
+          }}<br />
+          <strong>Name servers:</strong> {{ whois_info['name_servers'] }}<br />
+          <strong>Status:</strong> {{ whois_info['status'] }}<br />
+          <strong>Email:</strong> {{ whois_info['emails'] }}<br />
+          <strong>Name:</strong> {{ whois_info['name'] }}<br />
+          <strong>Address:</strong> {{ whois_info['address'] }}<br />
+          <strong>City:</strong> {{ whois_info['city'] }}<br />
+          <strong>Country:</strong> {{ whois_info['country'] }}<br />
+        </p>
+      </div>
+    </div>
+    <div class="network-card">
+      <h2>Nmap_Info</h2>
+      <div class="nmap_info">
+        <p>
+          <strong>Ip Address</strong> {{ nmap_result['ip_address'] }}<br />
+          <strong>RDNS Records</strong> {{ nmap_result['rdns_records'] }}<br />
+          <strong>Port Info</strong> {{ nmap_result['port_info'] }}<br />
+          <strong>Port Number</strong> {{ nmap_result['port_numbers'] }}<br />
+          <strong>SubDomains</strong> {{ nmap_result['subdomains'] }}<br />
+        </p>
+      </div>
+    </div>
+    <div class="network-card">
+      <h2>Server_Info</h2>
+      <div class="server_info">
+        <p>{{ server_info }}</p>
+      </div>
+    </div>
+    <div class="network-card">
+      <h2>CVE_Info</h2>
+      {% for item_list in cve_info %}
+      <div class="cve_info">
+        {% for item in item_list %}
+        <p>
+          <strong>CVE ID:</strong> {{ item['CVE ID'] }}<br />
+          <strong>Description:</strong> {{ item['Description'] }}<br />
+          <strong>CVSS Score:</strong> {{ item['CVSS Score'] }}<br />
+          <strong>Category:</strong> {{ item['Category'] }}<br />
+        </p>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="container my-5">
+      <a class="container btn btn-outline-primary" href="/">돌아가기</a>
+    </div>
+  </body>
+</html>
