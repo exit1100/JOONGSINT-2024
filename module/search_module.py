@@ -146,7 +146,10 @@ def search_result():
     print(google_api_key,google_cse_id,naver_client_id,naver_client_secret)
     search_agent = SearchAgent(google_api_key,google_cse_id,naver_client_id,naver_client_secret)
     # 검색어 입력 받기
-    search_term = request.cookies.get("keyword").encode('latin1').decode('utf-8')
+    search_term = request.cookies.get("search").encode('latin1').decode('utf-8')
+
+    print(f"SEARCH TERM : {search_term}\n\n\n\n\n\n\n\n")
+
     # 검색어를 이용한 검색 실행 및 결과 저장
     search_agent.run_search(search_term)
 

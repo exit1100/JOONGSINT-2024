@@ -21,6 +21,9 @@ def network_result():
         def __init__(self, target_domain):
             self.target_domain = target_domain
             self.ip = socket.gethostbyname(target_domain)
+            print("\n\n\n\n\n\n\n\n\n\n")
+            print(self.ip)
+            print("\n\n\n\n\n\n\n\n\n\n")
             self._nmap_result = None
             
 
@@ -143,13 +146,16 @@ def network_result():
                     description = result["cve"]["description"]["description_data"][0]["value"]
                     cvss_score = result["impact"]["baseMetricV3"]["cvssV3"]["baseScore"]
                     categories = result["cve"]["problemtype"]["problemtype_data"][0]["description"][0]["value"]
-                    cve_data.append({"CVE ID": cve_id, "Description": description, "CVSS Score": cvss_score, "Category": categories})
+                    cve_data.append({"CVE ID": cve_id, "Description": description, "CVSS Score": cvss_score, "Category": categories})   
             else:
                 print(f"Error: {response.status_code}")
 
             return cve_data
     # DomainScanner 객체 생성
-    domain_scanner = DomainScanner('www.joongsint.com')
+    Input_domain = request.cookies.get("Domain").encode('latin1').decode('utf-8')
+    
+    print(Input_domain)
+    domain_scanner = DomainScanner(Input_domain)
 
     # 네트워크 결과 가져오기
     try:

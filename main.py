@@ -5,12 +5,12 @@ from flask import Flask, render_template
 # from module.facebook_module import facebook_module
 # from module.twitter_module import twitter_module
 from module.search_module import search_module
-# from module.domain_module import domain_module
-# from module.network_module import network_module
+from module.domain_module import domain_module
+from module.network_module import network_module
 from module.github_module import github_module
-# from module.report_module import report_module
-# from module.reportlist_module import reportlist_module
-# from module.reportPDF_module import reportPDF_module
+from module.report_module import report_module
+from module.reportlist_module import reportlist_module
+from module.reportPDF_module import reportPDF_module
 # import config as config
 
 
@@ -21,14 +21,14 @@ app = Flask(__name__)
 # app.register_blueprint(facebook_module)
 # app.register_blueprint(twitter_module)
 app.register_blueprint(search_module)
-# app.register_blueprint(domain_module)
-# app.register_blueprint(network_module)
+app.register_blueprint(domain_module)
+app.register_blueprint(network_module)
 app.register_blueprint(github_module)
-# app.register_blueprint(report_module)
-# app.register_blueprint(reportlist_module)
-# app.register_blueprint(reportPDF_module)
+app.register_blueprint(report_module)
+app.register_blueprint(reportlist_module)
+app.register_blueprint(reportPDF_module)
 
-# app.config.from_object('config')
+app.config.from_object('config')
 
 @app.route("/")
 def index():
