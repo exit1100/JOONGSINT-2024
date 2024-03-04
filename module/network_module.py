@@ -16,14 +16,11 @@ network_module = Blueprint("network_module", __name__)
 
 @network_module.route('/network_result', methods=["POST"])
 def network_result():
+    
     class DomainScanner:
-
         def __init__(self, target_domain):
             self.target_domain = target_domain
             self.ip = socket.gethostbyname(target_domain)
-            print("\n\n\n\n\n\n\n\n\n\n")
-            print(self.ip)
-            print("\n\n\n\n\n\n\n\n\n\n")
             self._nmap_result = None
             
 
@@ -153,8 +150,6 @@ def network_result():
             return cve_data
     # DomainScanner 객체 생성
     Input_domain = request.cookies.get("Domain").encode('latin1').decode('utf-8')
-    
-    print(Input_domain)
     domain_scanner = DomainScanner(Input_domain)
 
     # 네트워크 결과 가져오기
@@ -179,6 +174,9 @@ def network_result():
         print(server_info)
     
     cve_info = []
+    print("\n\n\n\n\n\n\n\n\n\n")
+    print(server_info)
+    print("\n\n\n\n\n\n\n\n\n\n")
     for i in range(len(server_info)):
         cve_info.append(domain_scanner.get_cve_info(server_info[i]))
 
@@ -195,7 +193,7 @@ def network_result():
 
     result_dic = {}
     result_dic['ip_info'] = ip_info
-    #result_dic['whois_info'] = whois_info
+    result_dic['whois_info'] = whois_info
     result_dic['nmap_result'] = nmap_result
     result_dic['server_info'] = server_info
     result_dic['cve_info'] = cve_info

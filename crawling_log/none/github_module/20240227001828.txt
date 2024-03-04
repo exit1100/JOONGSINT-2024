@@ -1,0 +1,1 @@
+Truebird0109${'senier_project_Public': [{'path': 'README.md', 'content': 'phone : 010-7777-7777'}, {'path': 'README.md', 'content': 'email : Truebird0109@gmail.com'}]}
