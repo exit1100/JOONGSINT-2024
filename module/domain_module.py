@@ -1,15 +1,15 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+import time, re, os, json
 from bs4 import BeautifulSoup
-import time, re, os
 from urllib.parse import urljoin
-from urllib.parse import unquote
-from datetime import datetime
+from config import host, port, user, password, db
+from db_module import init, insert
 
 
 domain_module = Blueprint("domain_module", __name__)
@@ -23,7 +23,6 @@ def domain_result():
                 options = Options()
                 options.headless = True
             self.driver = webdriver.Chrome('chromedriver.exe', options=options)
-            self.start_time = datetime.today().strftime("%Y%m%d%H%M%S")
             self.category = ['keywords', 'emails', 'phones']
             self.all_url = []
             self.complete_url = []
@@ -34,36 +33,28 @@ def domain_result():
             self.all_phone = []
             self.keyword_str = 'none'
             self.filter_flag = False
-            self.value_dic = {}
             self.capute_path = './capture_page'
-            self.log_path = ''
-            if request.cookies.get('folder') is not None and request.cookies.get('folder') != '' :
-                self.log_path = './crawling_log/' + request.cookies.get('folder').encode('latin-1').decode('utf-8') + '/domain_module'
-            else:
-                self.log_path = './crawling_log/none/domain_module'
 
             if request.cookies.get('keyword') is not None and request.cookies.get('keyword') != '' :
                 self.filter_flag = True
                 self.keyword_str = request.cookies.get('keyword').encode('latin-1').decode('utf-8')
                 self.keyword_list = [value.strip() for value in self.keyword_str.split(',')]
-   
+
         def HTML_SRC(self, url, url_search=0, filter=False):
             try:
                 self.driver.get(url)
 
-                # 페이지 로딩이 완료될 때까지 대기
-                while True:
+                while True: # hold
                     page_state = self.driver.execute_script('return document.readyState;')
                     if page_state == 'complete':
                         break
                     time.sleep(1)
 
-                # SPA 웹 페이지의 HTML 소스 코드 가져오기
+                # SPA WebPage HTML Crawling
                 html = self.driver.execute_script('return document.getElementsByTagName("html")[0].innerHTML;')
 
-                # BeautifulSoup을 이용하여 데이터 추출
+                # BeautifulSoup html 추출
                 soup = BeautifulSoup(html, 'html.parser')
-
                 if (url_search==1):
                     return soup
 
@@ -98,18 +89,14 @@ def domain_result():
                     tmp[key] = locals()[key]
                 tmp['filter_keyword'] = self.keyword_str
                 value.append(tmp)
-                self.value_dic[url] = value
 
-
-                invalid_chars = r'[\\/:\*\?"<>\|]+'
-                # 파일 이름으로 사용할 수 없는 문자들을 '_'로 치환
-                filename = re.sub(invalid_chars, '_', url) + '.png'
-                self.driver.set_window_size(1920, 1080)
-                # 페이지 로딩이 완료될 때까지 대기
-                wait = WebDriverWait(self.driver, 10)
-                wait.until(EC.presence_of_element_located((By.XPATH, "//body")))
-                self.driver.save_screenshot(f'{self.capute_path}/{filename}')
-
+                # URL Capture
+                #invalid_chars = r'[\\/:\*\?"<>\|]+' # 파일 이름으로 사용할 수 없는 문자들을 '_'로 치환
+                #filename = re.sub(invalid_chars, '_', url) + '.png'
+                #self.driver.set_window_size(1920, 1080)
+                #wait = WebDriverWait(self.driver, 10) # 페이지 로딩이 완료될 때까지 대기
+                #wait.until(EC.presence_of_element_located((By.XPATH, "//body")))
+                #self.driver.save_screenshot(f'{self.capute_path}/{filename}')
             except:
                 pass
 
@@ -132,11 +119,8 @@ def domain_result():
         def run(self, root_url):
             self.url_append(root_url, 2)
             print('keyword :',self.keyword_str)
-            if not os.path.exists(self.log_path):
-                os.makedirs(self.log_path)
-
-            if not os.path.exists(self.capute_path):
-                os.makedirs(self.capute_path)
+            #if not os.path.exists(self.capute_path):
+            #    os.makedirs(self.capute_path)
 
             for url in self.all_url:
                 print("[*] Target URL:" ,url, '###')
@@ -145,21 +129,26 @@ def domain_result():
                 else :
                     self.HTML_SRC(url)
 
-            fp = open(f'{self.log_path}/{self.start_time}.txt','w', encoding='utf-8')
-            fp.write(str(self.value_dic))
-            fp.close()
-
             self.result['keyword'] = self.all_keyword
             self.result['email'] = self.all_email
             self.result['phone'] = self.all_phone
             self.result['search_url'] = self.search_url
             return self.result
 
+    # start domain module
     url = 'http://'+ request.cookies.get('Domain')+'/'
     print(url)
 
     crawling = WebCrawler()
     result = crawling.run(url)
-    
+    print(result)
 
-    return render_template("domain_result.html", filter_keyword=crawling.keyword_str, folder_path=crawling.log_path, result=result)
+    # db insert
+    input_db = init(host,port,user,password,db)
+    moduel = "domain"
+    type = "enterprice"
+    json_result = json.dumps(result)
+    input_user = session['login_user']
+    insert(input_db, moduel, type, json_result, input_user)
+
+    return render_template("domain_result.html", filter_keyword=crawling.keyword_str, result=result)
