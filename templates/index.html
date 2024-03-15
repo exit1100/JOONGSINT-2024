@@ -43,8 +43,24 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#!">Home</a>
             </li>
-            <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
+            {% if user_id %}
+              <li class="nav-item">
+                <a class="nav-link" href="/setting">Setting</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#!">Welcome, {{ user_id }}!</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/logout">Logout</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                  <a class="nav-link" href="/login">Login</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/register">Register</a>
+              </li>
+            {% endif %}
           </ul>
         </div>
       </div>
@@ -54,7 +70,7 @@
       <div class="container px-lg-5">
         <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
           <div class="m-4 m-lg-5">
-            <h1 class="display-5 fw-bold">welcome Joongsint!</h1>
+            <h1 class="display-5 fw-bold">welcome Joongsint!!!!!</h1>
             <p class="fs-4">
               Gather all the information you need in one place with our OSINT
               webpage that offers comprehensive insights using data collected
@@ -483,7 +499,7 @@
                   <!-- Project details-->
                   <h1 class="text-uppercase">Joongsint Module Manual</h1>
                   <div>
-                    <h4>저희 Joongsint를 사용하시려면 설치해야 할 모듈들이 존재합니다.</h4>
+                    <h4>저희 Joongsint를 사용하시려면 설치해야 할 모듈들이 존재합니당!!!!!!!!!!!!</h4>
                     <h4>우선, Joonhsint에서 제공하는 모듈 파일들을 설치해 주세요.</h4>
                     <h4>그런 다음 원활한 사용을 위해 추가적으로 설치 명령어와 설치 파일을 사용하여 모듈을 설치해 주세요.</h4>
                     <p></p>※ python3를 권장하며, python2를 사용한다면 pip3가 아닌 pip를 통해 설치합니다.</p><br>

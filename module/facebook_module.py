@@ -1,16 +1,19 @@
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.service import Service
+#from webdriver_manager.chrome import ChromeDriverManager
 import time, re
-from config import Facebook_ID, Facebook_PW
+from config import Facebook_ID, Facebook_PW, host,port,user,password,db
 import pymysql
 import os
 import json
+from module.db_module import init, insert, get_setting
 
 facebook_module = Blueprint("facebook_module", __name__)
 
@@ -34,7 +37,7 @@ def facebook_result():
             username_input.send_keys(login_name)
             password_input.send_keys(login_pw)
 
-            login_button = driver.find_element(By.XPATH , "//button[@type='submit']")
+            login_button = driver.find_element(By.XPATH , "//button[@type='button']")
             
             login_button.click()
 
@@ -54,6 +57,8 @@ def facebook_result():
                 options.add_argument('--no-sandbox')
                 options.add_argument('--lang=ko_KR.UTF-8')
                 driver = webdriver.Chrome(executable_path=self.driver_path, options=options)
+                print(self.driver_path)
+                # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
                 driver.get(url)
                 time.sleep(5)
                 self.login_facebook(driver, url, login_name, login_pw)
@@ -158,16 +163,16 @@ def facebook_result():
             except:
                 return None
 
-    
-    mysql_host = os.environ.get('MYSQL_HOST', '127.0.0.1')
-    mysql_port= int(os.environ.get('MYSQL_PORT', 3308))
-    mysql_user =  os.environ.get('MYSQL_USER', 'root')
-    mysql_password = os.environ.get('MYSQL_PASSWORD', '')
-    mysql_db = os.environ.get('MYSQL_DB', 'joongsint')
-    
-    driver_path = 'app/chromedriver.exe'
 
-    find_name = request.cookies.get("NAME")
+
+    driver_path = 'app/chromedriver.exe'
+    input_db = init(host,port,user,password,db)
+    input_user = 	session['login_user']
+
+    find_name = get_setting(input_db,'search_ID',input_user)
+    
+    # find_name = request.cookies.get("NAME")
+    print(find_name)
 
     scraper = SNSProfileScraper(find_name , driver_path)
     facebook_profile = scraper.scrape_facebook_profile(Facebook_ID,Facebook_PW)
@@ -176,20 +181,16 @@ def facebook_result():
 
     result['facebook'] = facebook_profile
 
-    db = pymysql.connect(host=mysql_host,port=mysql_port, user=mysql_user, password=mysql_password, db=mysql_db, charset='utf8')
 
 
-
+    # DB INSERT
     moduel = "facebook"
     type = "enterprice"
     json_result = json.dumps(facebook_profile)
-    user = 	'wpgur'
+    print("json_result: ", json_result)
     
-    cursor = db.cursor()
-
-    cursor.execute("INSERT INTO result (moduel, type, result, user) VALUES (%s, %s, %s, %s)", (moduel, type, json_result, user))
-
-    db.commit()
-    db.close()
+    input_db = init(host,port,user,password,db)
+    insert(input_db, moduel, type, json_result, input_user)
+    
     
     return render_template("facebook_result.html", result=result)
