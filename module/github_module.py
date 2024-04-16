@@ -1,7 +1,11 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request ,session
 import requests, base64, time, re, os
 from config import github_access_token
 from datetime import datetime
+from config import host, port, user, password, db
+from module.db_module import init, insert, get_setting
+import pymysql
+import json
 
 github_module = Blueprint("github_module", __name__)
 
@@ -130,11 +134,11 @@ def github_result():
 
                 for repo_name in repository_names:
                     self.repo_list = []
-                    repo_result = self.traverse_directory(repo_name)
-                    result[repo_name] = repo_result
+                    if repo_name == "hcj2" :
+                        repo_result = self.traverse_directory(repo_name)
+                        result[repo_name] = repo_result
                     time.sleep(1)
             del_list = []
-
             for i in range(len(result)):
                 if len(list(result.values())[i]) == 0:
                     del_list.append(list(result.keys())[i])
@@ -142,14 +146,13 @@ def github_result():
                     pass
             for i in range(len(del_list)):
                 del result[del_list[i]]
-            fp = open(f'{self.log_path}/{self.start_time}.txt','w', encoding='utf-8')
-            fp.write(self.username+"$"+str(result))
-            fp.close()
+            print("\n\n\n\n\n\n\n")
+            print("result : ")
+            print(result)
             
             return result,self.pdf_link
 
     github_username = request.cookies.get('NAME')
-    print(github_username)
     filter_keyword = ''
     if request.cookies.get('keyword') not in [None, ''] :
         filter_keyword = request.cookies.get('keyword').encode('latin-1').decode('utf-8')
@@ -160,10 +163,19 @@ def github_result():
     analyzer = GithubAnalyzer(github_access_token, github_username, keyword)
     try:
         result,pdf_links = analyzer.analyze()
+        print(result)
     except:
-        print('error')
+        print('error eerroorr')
         pass
     result_key = list(result.keys())
+    
+    module = "github"
+    type = "enterprice"
+    json_result = json.dumps(result)
+    print("json_result: ", json_result)
+    input_user = session['login_user']
+    input_db = init(host,port,user,password,db)
+    insert(input_db, module, type, json_result, input_user)
 
 
     return render_template("github_result.html", filter_keyword=filter_keyword, folder_path=analyzer.log_path, result=result, result_key=result_key,pdf_link = pdf_links)
