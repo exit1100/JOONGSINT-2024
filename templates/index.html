@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   </head>
-  <body>
+  <body class="bg-dark">
     <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container px-lg-5">
@@ -66,7 +66,7 @@
       </div>
     </nav>
     <!-- Header-->
-    <header class="py-5">
+    <header class="py-5 bg-dark">
       <div class="container px-lg-5">
         <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
           <div class="m-4 m-lg-5">
@@ -80,15 +80,15 @@
                 제공하는 OSINT 웹 페이지입니다.</p>
             </p>
             <div class="intro-btn gap-5 justify-content-sm-center">
-                <a class="btn btn-primary btn-lg" data-bs-toggle="modal" href="#Manual">Manual</a>
-                <a class="btn btn-primary btn-lg" data-bs-toggle="modal"  href="#Option">Option</a>
+                <a class="btn btn-success btn-lg" data-bs-toggle="modal" href="#Manual">Manual</a>
+                <a class="btn btn-success btn-lg" data-bs-toggle="modal"  href="#Option">Option</a>
             </div>
           </div>
         </div>
       </div>
     </header>
     <!-- Page Content-->
-    <section class="pt-4">
+    <section class="pt-4 bg-dark">
       <div class="container px-lg-5">
         <!-- Page Features-->
         <div class="row gx-lg-5">
@@ -96,7 +96,7 @@
             <div class="card bg-light border-0 h-100">
               <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                 <div
-                  class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"
+                  class="feature bg-success bg-gradient text-white rounded-bottom-circle mb-4 mt-n4"
                 >
                   <i class="bi bi-collection"></i>
                 </div>
@@ -105,17 +105,17 @@
                     Ability to collect and display data from Instagram, Facebook, and Twitter!
                 </p>
                 <form class="d-grid mt-4" form action="/sns_result" method="POST">
-                  <button class="btn btn-outline-primary" type="submit">search</button>
+                  <button class="btn btn-outline-success" type="submit">search</button>
                 </form>
                 <dvi class="d-flex align-items-center justify-content-between text-xs">
                   <form class="d-grid mt-4" form action="/insta_result" method="POST">
-                    <button class="btn btn-outline-primary" type="submit">instagram</button>
+                    <button class="btn btn-outline-success" type="submit">instagram</button>
                   </form>
                   <form class="d-grid mt-4" form action="/facebook_result" method="POST">
-                    <button class="btn btn-outline-primary" type="submit">facebook</button>
+                    <button class="btn btn-outline-success" type="submit">facebook</button>
                   </form>
                   <form class="d-grid mt-4" form action="/twitter_result" method="POST">
-                    <button class="btn btn-outline-primary" type="submit">twitter</button>
+                    <button class="btn btn-outline-success" type="submit">twitter</button>
                   </form>
                 </dvi>
               </div>
@@ -125,7 +125,7 @@
             <div class="card bg-light border-0 h-100">
               <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                 <div
-                  class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"
+                  class="feature bg-success bg-gradient text-white rounded-bottom-circle mb-4 mt-n4"
                 >
                   <i class="bi bi-cloud-download"></i>
                 </div>
@@ -134,7 +134,7 @@
                     Enter Domain to search for keywords and open phone numbers and emails for that Domain and sub-Domain!
                 </p>
                 <form class="d-grid mt-4" form action="/domain_result" method="POST">
-                  <button class="btn btn-outline-primary" type="submit">search</button>
+                  <button class="btn btn-outline-success" type="submit">search</button>
                 </form>
               </div>
             </div>
@@ -143,7 +143,7 @@
             <div class="card bg-light border-0 h-100">
               <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                 <div
-                  class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"
+                  class="feature bg-success bg-gradient text-white rounded-bottom-circle mb-4 mt-n4"
                 >
                   <i class="bi bi-card-heading"></i>
                 </div>
@@ -152,7 +152,7 @@
                     Collect open information through Google and Naver's search engines and data through Chat GPT!
                 </p>
                 <form class="d-grid mt-4" form action="/search_result" method="POST">
-                  <button class="btn btn-outline-primary" type="submit">search</button>
+                  <button class="btn btn-outline-success" type="submit">search</button>
                 </form>
               </div>
             </div>
@@ -161,7 +161,7 @@
             <div class="card bg-light border-0 h-100">
               <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                 <div
-                  class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"
+                  class="feature bg-success bg-gradient text-white rounded-bottom-circle mb-4 mt-n4"
                 >
                   <i class="bi bi-bootstrap"></i>
                 </div>
@@ -170,7 +170,7 @@
                     You can collect network information using IP, WhoIs, nmap, server vs. version, netblock, traceroute, and more!
                 </p>
                 <form class="d-grid mt-4" form action="/network_result" method="POST">
-                  <button class="btn btn-outline-primary" type="submit">search</button>
+                  <button class="btn btn-outline-success" type="submit">search</button>
                 </form>
               </div>
             </div>
@@ -179,7 +179,7 @@
             <div class="card bg-light border-0 h-100">
               <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                 <div
-                  class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"
+                  class="feature bg-success bg-gradient text-white rounded-bottom-circle mb-4 mt-n4"
                 >
                   <i class="fab fa-github"></i>
                 </div>
@@ -188,7 +188,7 @@
                   Enter a GitHub account and retrieve data from all of its repositories!
                 </p>
                 <form class="d-grid mt-4" form action="/github_result" method="POST">
-                  <button class="btn btn-outline-primary" type="submit">search</button>
+                  <button class="btn btn-outline-success" type="submit">search</button>
                 </form>
               </div>
             </div>
@@ -197,7 +197,7 @@
             <div class="card bg-light border-0 h-100">
               <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                 <div
-                  class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"
+                  class="feature bg-success bg-gradient text-white rounded-bottom-circle mb-4 mt-n4"
                 >
                   <i class="fas fa-flag"></i>
                 </div>
@@ -210,7 +210,7 @@
                   <button class="btn btn-outline-primary" type="submit">report</button>
                 </form> -->
                 <form class="d-grid mt-4" form action="/reportlist_result" method="POST">
-                  <button class="btn btn-outline-primary" type="submit">report</button>
+                  <button class="btn btn-outline-success" type="submit">report</button>
                 </form>
               </div>
             </div>
@@ -218,12 +218,12 @@
         </div>
       </div>
     </section>
-    <div class="container px-lg-5">
-    <div class="mb-5">
+    <div class="container px-lg-5 bg-dark">
+      <div class="mb-5">
         <div class=" bg-light border-0 h-100 shadow-l">
           <div class="text-center p-4 p-lg-5 pt-0 pt-lg-0">
             <div
-              class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"
+              class="feature bg-success bg-gradient text-white rounded-bottom-circle mb-4 mt-n4"
             >
               <i class="bi bi-code"></i>
             </div>
@@ -232,7 +232,7 @@
                 Get data from the network, Domain, SNS, and search engines of the companies and users you want to search for using all of the features at once!
             </p>
             <div class="d-grid mt-4">
-                <a class="btn btn-outline-primary" href="#!">search</a>
+                <a class="btn btn-outline-success" href="#!">search</a>
             </div>
           </div>
         </div>
@@ -300,7 +300,7 @@
                         placeholder="ex) keyword1, keyword2, keyword3 ..."
                       />
                       <button
-                        class="btn btn-primary btn-xl text-uppercase mx-sm-2"
+                        class="btn btn-success btn-xl text-uppercase mx-sm-2"
                         type="button"
                         onclick="setCookies('keyword');"
                         name="keyword_btn"
@@ -322,7 +322,7 @@
                         
                       />
                       <button
-                        class="btn btn-primary btn-xl text-uppercase mx-sm-2"
+                        class="btn btn-success btn-xl text-uppercase mx-sm-2"
                         type="button"
                         onclick="setCookies('NAME');"
                       >
@@ -381,7 +381,7 @@
                       />
 
                       <button
-                        class="btn btn-primary btn-xl text-uppercase mx-sm-2"
+                        class="btn btn-success btn-xl text-uppercase mx-sm-2"
                         type="button"
                         onclick="setCookies('Domain');"
                       >
@@ -400,7 +400,7 @@
                         
                       />
                       <button
-                        class="btn btn-primary btn-xl text-uppercase mx-sm-2"
+                        class="btn btn-success btn-xl text-uppercase mx-sm-2"
                         type="button"
                         onclick="setCookies('search');"
                       >
