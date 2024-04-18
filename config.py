@@ -11,3 +11,10 @@ naver_client_secret=''
 openai_api_key=''
 
 github_access_token = ""
+
+# db setting
+host = '127.0.0.1'
+port = 3308
+user = 'root'
+password = ''
+db = 'joongsint'

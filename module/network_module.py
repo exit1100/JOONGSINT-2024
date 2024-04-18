@@ -40,8 +40,14 @@ def network_result():
             """
             Whois 정보 가져오기
             """
+            print("who is start")
             domain = self.target_domain
+            print(f"domain : {domain}")
+            
             whois_result = whois.whois(f"{domain}")
+            print(f"whois : {whois_result}")
+            
+            time.sleep(5)
             return {
                 "domain_name": whois_result['domain_name'],
                 "whois_server":whois_result['whois_server'],
@@ -116,7 +122,9 @@ def network_result():
                                 server_tag = soup.find("meta", attrs={"name": "generator"})  # <meta name="generator" content="...">
                                 if server_tag:
                                     server_version = server_tag.get("content")
-                                    server_info.append(server_version.split('/')[0] + '/' + server_version.split('/')[1].split()[0])                 
+                                    server_info.append(server_version.split('/')[0] + '/' + server_version.split('/')[1].split()[0])
+                    else:
+                        print("NONE 발생")
                 except Exception as e:
                     pass
 
@@ -127,22 +135,21 @@ def network_result():
 
         def get_cve_info(self, server_info):
             server_info = server_info.replace("/", " ")
-            base_url = "https://services.nvd.nist.gov/rest/json/cves/1.0"
+            base_url = "https://services.nvd.nist.gov/rest/json/cves/2.0"
             cve_data = []
-
             params = {
-                "keyword": server_info,
+                "keywordSearch": server_info,
                 "resultsPerPage": 50
             }
 
             response = requests.get(base_url, params=params)
             if response.status_code == 200:
                 data = response.json()
-                for result in data["result"]["CVE_Items"]:
-                    cve_id = result["cve"]["CVE_data_meta"]["ID"]
-                    description = result["cve"]["description"]["description_data"][0]["value"]
-                    cvss_score = result["impact"]["baseMetricV3"]["cvssV3"]["baseScore"]
-                    categories = result["cve"]["problemtype"]["problemtype_data"][0]["description"][0]["value"]
+                for json_num in range(len(data['vulnerabilities'])):
+                    cve_id = data['vulnerabilities'][json_num]['cve']['id']
+                    description = data['vulnerabilities'][json_num]['cve']['descriptions'][0]['value']
+                    cvss_score = data['vulnerabilities'][json_num]['cve']['metrics']['cvssMetricV2'][0]['cvssData']['baseScore']
+                    categories = data['vulnerabilities'][json_num]['cve']['weaknesses'][0]['description'][-1]['value']
                     cve_data.append({"CVE ID": cve_id, "Description": description, "CVSS Score": cvss_score, "Category": categories})   
             else:
                 print(f"Error: {response.status_code}")
@@ -150,6 +157,7 @@ def network_result():
             return cve_data
     # DomainScanner 객체 생성
     Input_domain = request.cookies.get("Domain").encode('latin1').decode('utf-8')
+
     domain_scanner = DomainScanner(Input_domain)
 
     # 네트워크 결과 가져오기
@@ -162,8 +170,9 @@ def network_result():
     
     try:
         whois_info = domain_scanner.get_whois_info()
+        print(whois_info)
     except:
-        whois_info='whois_info'
+        whois_info='whois_info NONO'
         print(whois_info)
     nmap_result = domain_scanner.run_nmap()
     

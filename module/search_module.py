@@ -5,6 +5,11 @@ import urllib.parse
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from config import google_api_key ,google_cse_id,naver_client_id,naver_client_secret
+from datetime import datetime
+import time
+import pymysql
+import os
+import json
 
 search_module = Blueprint("search_module", __name__)
 
@@ -154,7 +159,33 @@ def search_result():
     search_agent.run_search(search_term)
 
 
-    result ={}
+
+
+    mysql_host = os.environ.get('MYSQL_HOST', '127.0.0.1')
+    mysql_port= int(os.environ.get('MYSQL_PORT', 3306))
+    mysql_user =  os.environ.get('MYSQL_USER', 'root')
+    mysql_password = os.environ.get('MYSQL_PASSWORD', '7575')
+    mysql_db = os.environ.get('MYSQL_DB', 'osint')
+
+
+
+    db = pymysql.connect(host=mysql_host,port=mysql_port, user=mysql_user, password=mysql_password, db=mysql_db, charset='utf8')
+
+    cursor = db.cursor()
+
+    sql = """
+    INSERT INTO result (module, type, json_result, user, date) 
+    VALUES (%s, %s, %s, %s, %s)
+    """
+    
+    values = ('search', 'enterprice', json.dumps(search_agent.search_results), 'jjury', datetime.now())
+
+    cursor.execute(sql, values)
+    
+    db.commit()
+    db.close()
+
+    
 
     return render_template("search_result.html", result=search_agent.search_results ,onebon = search_agent.search_results_one)
 
