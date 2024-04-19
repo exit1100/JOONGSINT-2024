@@ -6,119 +6,124 @@
     <title>Setting Value</title>
     <link
       href="{{ url_for('static', filename='css/option.css') }}"
+      rel="stylesheet"
+    />
+    <link
       href="{{ url_for('static', filename='css/styles.css') }}"
       rel="stylesheet"
     />
   </head>
   <body>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="page-content">
-            <h2 class="section-title">Setting Value</h2>
-            <p class="section-description">
-              데이터 수집에 필요한 값들을 입력해주세요
-            </p>
-            <form id="settingForm">
-              <div class="form-group">
-                <label for="keyword">특정 키워드 필터링</label>
-                <div class="input-group">
-                  <input
-                    class="form-control"
-                    id="keyword"
-                    placeholder="ex) keyword1, keyword2, keyword3 ..."
-                  />
-                  <button
-                    class="btn btn-primary save-btn"
-                    type="button"
-                    data-field="keyword"
-                  >
-                    SAVE
-                  </button>
+    <section class="pt-4 bg-dark">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="page-content">
+              <h2 class="section-title">Setting Value</h2>
+              <p class="section-description">
+                데이터 수집에 필요한 값들을 입력해주세요
+              </p>
+              <form id="settingForm">
+                <div class="form-group">
+                  <label for="keyword">특정 키워드 필터링</label>
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      id="keyword"
+                      placeholder="ex) keyword1, keyword2, keyword3 ..."
+                    />
+                    <button
+                      class="btn btn-success save-btn"
+                      type="button"
+                      data-field="keyword"
+                    >
+                      SAVE
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label for="search_ID">검색할 프로필 ID</label>
-                <div class="input-group">
-                  <input
-                    class="form-control"
-                    id="search_ID"
-                    type="text"
-                    placeholder="Your Profile ID *"
-                  />
-                  <button
-                    class="btn btn-primary save-btn"
-                    type="button"
-                    data-field="search_ID"
-                  >
-                    SAVE
-                  </button>
+                <div class="form-group">
+                  <label for="search_ID">검색할 프로필 ID</label>
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      id="search_ID"
+                      type="text"
+                      placeholder="Your Profile ID *"
+                    />
+                    <button
+                      class="btn btn-success save-btn"
+                      type="button"
+                      data-field="search_ID"
+                    >
+                      SAVE
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label for="search_domain">검색할 도메인</label>
-                <div class="input-group">
-                  <input
-                    class="form-control"
-                    id="search_domain"
-                    type="text"
-                    placeholder="Your Domain *"
-                  />
-                  <button
-                    class="btn btn-primary save-btn"
-                    type="button"
-                    data-field="search_domain"
-                  >
-                    SAVE
-                  </button>
+                <div class="form-group">
+                  <label for="search_domain">검색할 도메인</label>
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      id="search_domain"
+                      type="text"
+                      placeholder="Your Domain *"
+                    />
+                    <button
+                      class="btn btn-success save-btn"
+                      type="button"
+                      data-field="search_domain"
+                    >
+                      SAVE
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label for="search_word">검색엔진에 적용할 단어</label>
-                <div class="input-group">
-                  <input
-                    class="form-control"
-                    id="search_word"
-                    type="text"
-                    placeholder="Your search word *"
-                  />
-                  <button
-                    class="btn btn-primary save-btn"
-                    type="button"
-                    data-field="search_word"
-                  >
-                    SAVE
-                  </button>
+                <div class="form-group">
+                  <label for="search_word">검색엔진에 적용할 단어</label>
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      id="search_word"
+                      type="text"
+                      placeholder="Your search word *"
+                    />
+                    <button
+                      class="btn btn-success save-btn"
+                      type="button"
+                      data-field="search_word"
+                    >
+                      SAVE
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </form>
-            <h2 class="section-title mt-5">Save Value</h2>
-            <!-- 새로고침 버튼 -->
-            <button
-              class="btn btn-secondary mt-4 refresh-btn"
-              onclick="location.reload();"
-            >
-              새로고침
-            </button>
-            <p class="section-description">저장한 값을 확인하세요.</p>
-            <div class="card mt-4" id="savedValues">
-              <div class="card-body">
-                <!-- 저장된 값들을 여기에 표시 -->
-                <p>Keyword: {{ saved_values[0] }}</p>
-                <p>Search ID: {{ saved_values[1] }}</p>
-                <p>Search Domain: {{ saved_values[2] }}</p>
-                <p>Search Word: {{ saved_values[3] }}</p>
-                <p>User ID: {{ saved_values[4] }}</p>
+              </form>
+              <h2 class="section-title mt-5">Save Value</h2>
+              <!-- 새로고침 버튼 -->
+              <button
+                class="btn btn-secondary mt-4 refresh-btn"
+                onclick="location.reload();"
+              >
+                새로고침
+              </button>
+              <p class="section-description">저장한 값을 확인하세요.</p>
+              <div class="card mt-4" id="savedValues">
+                <div class="card-body">
+                  <!-- 저장된 값들을 여기에 표시 -->
+                  <p>Keyword: {{ saved_values[0] }}</p>
+                  <p>Search ID: {{ saved_values[1] }}</p>
+                  <p>Search Domain: {{ saved_values[2] }}</p>
+                  <p>Search Word: {{ saved_values[3] }}</p>
+                  <p>User ID: {{ saved_values[4] }}</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="container my-5">
-      <a class="container btn btn-outline-primary" href="/">돌아가기</a>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="static/js/option.js"></script>
+      <div class="container">
+        <a class="container btn btn-outline-success" href="/">돌아가기</a>
+      </div>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="static/js/option.js"></script>
+    </section>
   </body>
 </html>
