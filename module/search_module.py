@@ -1,10 +1,12 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session
 import re
 import requests
 import urllib.parse
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from config import google_api_key ,google_cse_id,naver_client_id,naver_client_secret
+from config import host, port,user, password, db
+from module.db_module import init, insert, get_setting
 from datetime import datetime
 import time
 import pymysql
@@ -158,34 +160,24 @@ def search_result():
     # 검색어를 이용한 검색 실행 및 결과 저장
     search_agent.run_search(search_term)
 
+    input_db = init(host,port,user,password,db)
+    input_user = 	session['login_user']
 
-
-
-    mysql_host = os.environ.get('MYSQL_HOST', '127.0.0.1')
-    mysql_port= int(os.environ.get('MYSQL_PORT', 3306))
-    mysql_user =  os.environ.get('MYSQL_USER', 'root')
-    mysql_password = os.environ.get('MYSQL_PASSWORD', '7575')
-    mysql_db = os.environ.get('MYSQL_DB', 'osint')
-
-
-
-    db = pymysql.connect(host=mysql_host,port=mysql_port, user=mysql_user, password=mysql_password, db=mysql_db, charset='utf8')
-
-    cursor = db.cursor()
-
-    sql = """
-    INSERT INTO result (module, type, json_result, user, date) 
-    VALUES (%s, %s, %s, %s, %s)
-    """
+    find_name = get_setting(input_db,'search_ID',input_user)
     
-    values = ('search', 'enterprice', json.dumps(search_agent.search_results), 'jjury', datetime.now())
+    # find_name = request.cookies.get("NAME")
+    print(find_name)
 
-    cursor.execute(sql, values)
+
+    module = "search"
+    type = "enterprice"
+    json_result = json.dumps(search_agent.search_results)
+    print("json_result: ", json_result)
     
-    db.commit()
-    db.close()
-
+    input_db = init(host,port, user,password,db)
+    insert(input_db, module, type, json_result, input_user, datetime.now())
     
-
+    
     return render_template("search_result.html", result=search_agent.search_results ,onebon = search_agent.search_results_one)
+
 
