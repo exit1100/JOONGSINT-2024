@@ -102,28 +102,16 @@
             <th style="width: 20%">Phones</th>
             <th style="width: 20%">Keywords</th>
           </tr>
-          {% for domain_dic in domain %} {% for url, items in domain_dic.items()
-          %} {% for item in items %}
+          {% for result in results_domain %}
           <tr>
-            <td><a href="{{ url }}">{{ url }}</a></td>
-            <td>{{ item['filter_keyword'] }}</td>
-            <td>{{ item['emails'] }}</td>
-            <td>{{ item['phones'] }}</td>
-            <td>
-              <div class="truncate">
-                {{ item['keywords'][:10] }}{% if item['keywords']|length > 10
-                %}...{% endif %}
-              </div>
-              {% if item['keywords']|length > 10 %}
-              <div class="full-keywords" style="display: none">
-                {{ item['keywords'] }}
-              </div>
-              <a href="#" class="more-link">더보기</a>
-              <a href="#" class="less-link" style="display: none">접기</a>
-              {% endif %}
-            </td>
-          </tr>
-          {% endfor %} {% endfor %} {% endfor %}
+            <tr>
+              <td>{{ result.module }}</td>
+              <td>{{ result.type }}</td>
+              <td>{{ result.user }}</td>
+              <td>{{ result.date }}</td>
+              <td>{{ result.json_result | tojson }}</td>
+            </tr>
+            {% endfor %}
         </table>
       </div>
       <hr />
@@ -138,21 +126,16 @@
             <th style="width: 20%">server version</th>
             <th style="width: 20%">CVE</th>
           </tr>
-          {% for net in network %}
+          {% for result in results_network %}
           <tr>
-            <td>{{ net['nmap_result']['ip_address'] }}</td>
-            <td>{{ net['nmap_result']['rdns_records'] }}</td>
-            <td>{{ net['nmap_result']['port_info'] }}</td>
-            <td>{{ net['server_info'] }}</td>
-            <td>
-              {% for item_list in net['cve_info'] %} {% for item in item_list %}
-              <a href="https://nvd.nist.gov/vuln/detail/{{ item['CVE ID'] }}"
-                >{{ item['CVE ID'] }}</a
-              ><br />
-              {% endfor %} {% endfor %}
-            </td>
-          </tr>
-          {% endfor %}
+            <tr>
+              <td>{{ result.module }}</td>
+              <td>{{ result.type }}</td>
+              <td>{{ result.user }}</td>
+              <td>{{ result.date }}</td>
+              <td>{{ result.json_result | tojson }}</td>
+            </tr>
+            {% endfor %}
         </table>
       </div>
       <hr />
@@ -166,24 +149,40 @@
           <th style="width: 25%">path</th>
           <th style="width: 45%">content</th>
         </tr>
-        {% for git_dic in github %} {% for url, items in git_dic.items()%} {%
-        for item in items %}
+        {% for result in results_git %}
         <tr>
-          <td>{{who}}</td>
-          <td>{{url}}</td>
-          <td>
-            <a
-              href="https://github.com/{{who}}/{{url}}/blob/master/{{ item['path'] }}"
-              >{{ item['path'] }}</a
-            >
-          </td>
-          <td>{{ item['content'] }}</td>
-        </tr>
-        {% endfor %} {% endfor %} {% endfor %}
+          <tr>
+            <td>{{ result.module }}</td>
+            <td>{{ result.type }}</td>
+            <td>{{ result.user }}</td>
+            <td>{{ result.date }}</td>
+            <td>{{ result.json_result | tojson }}</td>
+          </tr>
+          {% endfor %}
       </table>
       <hr />
       <br />
-
+      <h3>LOG - Search Module</h3>
+      <table>
+        <tr>
+          <th style="width: 20%">Module</th>
+          <th style="width: 20%">Type</th>
+          <th style="width: 20%">User</th>
+          <th style="width: 20%">Date</th>
+          <th style="width: 20%">Json Result</th>
+        </tr>
+        {% for result in results_search %}
+        <tr>
+          <td>{{ result.module }}</td>
+          <td>{{ result.type }}</td>
+          <td>{{ result.user }}</td>
+          <td>{{ result.date }}</td>
+          <td>{{ result.json_result | tojson }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      <hr />
+      <br />
       <form class="d-grid mt-4" form action="/reportlist_result" method="POST">
         <button class="btn btn-outline-primary" type="submit">돌아가기</button>
       </form>
