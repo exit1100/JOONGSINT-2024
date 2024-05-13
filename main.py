@@ -5,7 +5,7 @@ from datetime import timedelta
 # from module.sns_module import sns_module
 # from module.insta_module import insta_module
 from module.facebook_module import facebook_module
-from module.twitter_module import twitter_module
+# from module.twitter_module import twitter_module
 from module.search_module import search_module
 from module.domain_module import domain_module
 from module.network_module import network_module
