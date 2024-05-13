@@ -15,7 +15,8 @@ def github_result():
     class GithubAnalyzer:
         def __init__(self, access_token, username, keywords):
             self.access_token = access_token
-            self.username = username
+            # self.username = username
+            self.username = 'lbcsultan'
             self.headers = {
                 "Authorization": f"Bearer {self.access_token}",
                 "User-Agent": "Mozilla/5.0",
@@ -24,6 +25,8 @@ def github_result():
             self.keywords = keywords
             self.van_list = ["integrity", "sha512"]
             self.repo_list = []
+            print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
+            print(self.username)
             self.result_folder = os.path.join(os.getcwd(), self.username)
             self.ip_regex = r'\b(?:\d{1,3}\.){3}\d{1,3}\b'
             self.phone_regex = r'\b(?:\d{2,3}-)?\d{3,4}-\d{4}\b'
@@ -152,8 +155,15 @@ def github_result():
             
             return result,self.pdf_link
 
+
+
     github_username = request.cookies.get('NAME')
     filter_keyword = ''
+
+    input_db = init(host,port,user,password,db)
+    input_user = 	session['login_user']
+    find_name = get_setting(input_db,'search_ID',input_user)
+    
     if request.cookies.get('keyword') not in [None, ''] :
         filter_keyword = request.cookies.get('keyword').encode('latin-1').decode('utf-8')
         keyword = [filter_keyword.strip() for filter_keyword in filter_keyword.split(",")]
@@ -169,13 +179,13 @@ def github_result():
         pass
     result_key = list(result.keys())
     
-    module = "github"
+    moduel = "github"
     type = "enterprice"
     json_result = json.dumps(result)
     print("json_result: ", json_result)
     input_user = session['login_user']
     input_db = init(host,port,user,password,db)
-    insert(input_db, module, type, json_result, input_user)
+    insert(input_db, moduel, type, json_result, input_user)
 
 
     return render_template("github_result.html", filter_keyword=filter_keyword, folder_path=analyzer.log_path, result=result, result_key=result_key,pdf_link = pdf_links)
