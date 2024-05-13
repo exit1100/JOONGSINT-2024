@@ -155,7 +155,7 @@ def domain_result():
     url = 'http://'+ domain +'/'
     #print(url)
     
-    crawling = WebCrawler(driver_path, filter_key)
+    crawling = WebCrawler(filter_key)
     result = crawling.run(url)
     #print(result)
     json_result = json.dumps(result)
