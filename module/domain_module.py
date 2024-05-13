@@ -9,7 +9,7 @@ import time, re, os, json
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 from config import host, port, user, password, db
-from db_module import init, insert, get_setting
+from db.db_module import init, insert, get_setting
 
 
 domain_module = Blueprint("domain_module", __name__)
