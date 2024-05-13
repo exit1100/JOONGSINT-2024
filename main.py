@@ -47,9 +47,10 @@ def index():
     except:
         return render_template("index.html")
 
-@app.route("/hello")
-def hello_flask():
-    return render_template('loading.html')
+@app.route("/domain")
+def domain():
+    return render_template('loading.html', router='domain_result')
+
 
 @app.route("/login")
 def login():
