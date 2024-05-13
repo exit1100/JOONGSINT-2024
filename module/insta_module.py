@@ -1,13 +1,14 @@
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
-import time, re
-from config import Instagram_ID ,Instagram_PW
+import time, re, json
+from config import Instagram_ID ,Instagram_PW, host,port,user,password,db
+from module.db_module import init, insert, get_setting
 
 insta_module = Blueprint("insta_module", __name__)
 
@@ -128,8 +129,10 @@ def insta_result():
     
     
     driver_path = 'app/chromedriver.exe'
+    input_db = init(host,port,user,password,db)
+    input_user = 	session['login_user']
 
-    find_name = request.cookies.get("NAME")
+    find_name = get_setting(input_db,'search_ID',input_user)
 
     scraper = SNSProfileScraper(find_name , driver_path)
     instagram_profile = scraper.scrape_instagram_profile(Instagram_ID,Instagram_PW)
@@ -137,5 +140,14 @@ def insta_result():
     result ={}
 
     result['instagram'] = instagram_profile
+
+    # DB INSERT
+    moduel = "instagram"
+    type = "enterprice"
+    json_result = json.dumps(instagram_profile)
+    print("json_result: ", json_result)
+
+    insert(input_db, moduel, type, json_result, input_user)
+    input_db.close()  #추가
     
     return render_template("insta_result.html", result=result)

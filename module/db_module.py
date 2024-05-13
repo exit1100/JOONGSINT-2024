@@ -47,7 +47,31 @@ def get_setting(db,field,user):
     #db.close()
 
     return data[0]
+def get_result(db,user):
+    cursor = db.cursor()
 
+    cursor.execute("select moduel,date from result WHERE user = %s", (user))
+    
+    data = cursor.fetchall()
+
+    db.commit()
+    db.close()
+
+    return data
+
+def get_only_result(db,user,module,date):
+    cursor = db.cursor()
+
+
+    cursor.execute("select result from result WHERE user = %s and moduel = %s and date = %s", (user,module,date))
+    
+    data = cursor.fetchone()
+
+    db.commit()
+    db.close()
+
+    return data[0]
+    
 # config set
 
 # host = '127.0.0.1'

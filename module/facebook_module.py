@@ -191,6 +191,6 @@ def facebook_result():
     
     input_db = init(host,port,user,password,db)
     insert(input_db, moduel, type, json_result, input_user)
-    
+    input_db.close()  #추가
     
     return render_template("facebook_result.html", result=result)
