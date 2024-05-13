@@ -18,11 +18,15 @@ domain_module = Blueprint("domain_module", __name__)
 def domain_result():
 
     class WebCrawler:
-        def __init__(self, filter_key=None, options=None):
-            if options is None:
-                options = Options()
-                options.headless = True
-            self.driver = webdriver.Chrome('chromedriver.exe', options=options)
+        def __init__(self, driver_path, filter_key=None, options=None):
+            options = webdriver.ChromeOptions()
+            options.add_argument('headless')
+            options.add_argument('--disable-extensions')
+            options.add_argument('--disable-gpu')
+            options.add_argument('--no-sandbox')
+            options.add_argument('--lang=ko_KR.UTF-8')
+            self.driver = webdriver.Chrome(executable_path=driver_path, options=options)
+
             self.category = ['keywords', 'emails', 'phones']
             self.all_url = []
             self.complete_url = []
@@ -135,6 +139,7 @@ def domain_result():
             self.result['search_url'] = self.search_url
             return self.result
 
+    driver_path = 'app/chromedriver.exe'
     # db init
     input_db = init(host,port,user,password,db)
     moduel = "domain"
@@ -149,7 +154,7 @@ def domain_result():
     url = 'http://'+ domain +'/'
     #print(url)
     
-    crawling = WebCrawler(filter_key)
+    crawling = WebCrawler(driver_path, filter_key)
     result = crawling.run(url)
     #print(result)
     json_result = json.dumps(result)
@@ -157,5 +162,5 @@ def domain_result():
     # db insert
     insert(input_db, moduel, type, json_result, input_user)
     input_db.close()
-    
+
     return render_template("domain_result.html", filter_keyword=crawling.keyword_str, result=result)
