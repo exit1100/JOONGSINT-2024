@@ -19,15 +19,15 @@ domain_module = Blueprint("domain_module", __name__)
 def domain_result():
 
     class WebCrawler:
-        def __init__(self, driver_path, filter_key=None, options=None):
+        def __init__(self, filter_key=None, options=None):
             options=Options()
             options.add_argument('headless')
             options.add_argument('--disable-extensions')
             options.add_argument('--disable-gpu')
             options.add_argument('--no-sandbox')
             options.add_argument('--lang=ko_KR.UTF-8')
-            #service=Service(ChromeDriverManager().install())
-            self.driver=webdriver.Chrome(service=driver_path,options=options)
+            service = Service(executable_path=r'app/chromedriver')
+            self.driver=webdriver.Chrome(service=service,options=options)
 
             self.category = ['keywords', 'emails', 'phones']
             self.all_url = []
@@ -141,7 +141,6 @@ def domain_result():
             self.result['search_url'] = self.search_url
             return self.result
 
-    driver_path = 'app/chromedriver.exe'
     # db init
     input_db = init(host,port,user,password,db)
     moduel = "domain"
