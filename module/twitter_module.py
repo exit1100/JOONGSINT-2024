@@ -25,7 +25,18 @@ def twitter_result():
         
         def __init__(self, username):
             self.username = username
-
+            self.valError = False
+            
+        def chk_username(self):
+            if self.username == None:
+                self.valError = True
+            # username이 None이면 에러
+            else:
+                self.username = str(self.username).replace(' ', '').replace('\t', '').replace('\n', '')
+                if self.username == '':
+                    self.valError = True
+            # username이 공백이면 에러
+            
         def login_twitter(self, login_name, login_pw):
             self.driver.get('https://twitter.com/i/flow/login')
             time.sleep(3)
@@ -49,6 +60,20 @@ def twitter_result():
             time.sleep(3)
             
         def scrape_twitter_profile(self):
+            self.chk_username()
+            if self.valError == True:
+                profile_data = {
+                    'sns' : 'twitter',
+                    'name': '아이디가 올바르지 않습니다.',
+                    'screen_name': '',
+                    'bio':  '',
+                    'location': '',
+                    'profile_img': '',
+                    'joined_date': ''
+                }
+                return profile_data
+            
+            
             self.driver.get('https://twitter.com/'+self.username)
             time.sleep(3)
         
@@ -62,9 +87,23 @@ def twitter_result():
             #   // 생년월일 (유동)
             #   // 최초 가입일 (고정)
             
-            profile_img = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div/div/div/div[1]/div[1]/div[2]/div/div[2]/div/a/div[3]/div/div[2]/div/img').get_property('src')
-            name = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div/div/div/div[2]/div[1]/div/div[1]/div/div/span/span[1]').text
-            id = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div/div/div/div[2]/div[1]/div/div[2]/div/div/div/span').text
+
+            try:
+                profile_img = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div/div/div/div[1]/div[1]/div[2]/div/div[2]/div/a/div[3]/div/div[2]/div/img').get_property('src')
+                name = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div/div/div/div[2]/div[1]/div/div[1]/div/div/span/span[1]').text
+                id = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div/div/div/div[2]/div[1]/div/div[2]/div/div/div/span').text
+            except:
+                profile_data = {
+                    'sns' : 'twitter',
+                    'name': '아이디가 올바르지 않습니다.',
+                    'screen_name': '',
+                    'bio':  '',
+                    'location': '',
+                    'profile_img': '',
+                    'joined_date': ''
+                }
+                return profile_data
+            
             summary= ''
             location = ''
             joined_date = ''
@@ -102,7 +141,6 @@ def twitter_result():
                 'profile_img': profile_img,
                 'joined_date': joined_date
             }
-            print(profile_data)
             return profile_data
 
     find_name = request.cookies.get("NAME")
