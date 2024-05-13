@@ -3,7 +3,7 @@ from datetime import timedelta
 
 # from module.my_calc_module import my_calc_module
 # from module.sns_module import sns_module
-# from module.insta_module import insta_module
+from module.insta_module import insta_module
 from module.facebook_module import facebook_module
 from module.twitter_module import twitter_module
 from module.search_module import search_module
@@ -21,7 +21,7 @@ from module.user_setting_module import user_setting_module
 app = Flask(__name__)
 # app.register_blueprint(my_calc_module)
 # app.register_blueprint(sns_module)
-# app.register_blueprint(insta_module)
+app.register_blueprint(insta_module)
 app.register_blueprint(facebook_module)
 app.register_blueprint(twitter_module)
 app.register_blueprint(search_module)

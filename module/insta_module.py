@@ -128,7 +128,7 @@ def insta_result():
 
     
     
-    driver_path = 'app/chromedriver.exe'
+    driver_path = 'app/chromedriver'
     input_db = init(host,port,user,password,db)
     input_user = 	session['login_user']
 
