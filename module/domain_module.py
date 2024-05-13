@@ -9,7 +9,7 @@ import time, re, os, json
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 from config import host, port, user, password, db
-from db_module import init, insert
+from db_module import init, insert, get_setting
 
 
 domain_module = Blueprint("domain_module", __name__)
@@ -18,7 +18,7 @@ domain_module = Blueprint("domain_module", __name__)
 def domain_result():
 
     class WebCrawler:
-        def __init__(self, options=None):
+        def __init__(self, filter_key=None, options=None):
             if options is None:
                 options = Options()
                 options.headless = True
@@ -35,9 +35,9 @@ def domain_result():
             self.filter_flag = False
             self.capute_path = './capture_page'
 
-            if request.cookies.get('keyword') is not None and request.cookies.get('keyword') != '' :
+            if filter_key is not None and filter_key != '' :
                 self.filter_flag = True
-                self.keyword_str = request.cookies.get('keyword').encode('latin-1').decode('utf-8')
+                self.keyword_str = filter_key
                 self.keyword_list = [value.strip() for value in self.keyword_str.split(',')]
 
         def HTML_SRC(self, url, url_search=0, filter=False):
@@ -117,7 +117,7 @@ def domain_result():
                 return
 
         def run(self, root_url):
-            self.url_append(root_url, 2)
+            self.url_append(root_url, 1)
             print('keyword :',self.keyword_str)
             #if not os.path.exists(self.capute_path):
             #    os.makedirs(self.capute_path)
@@ -135,20 +135,25 @@ def domain_result():
             self.result['search_url'] = self.search_url
             return self.result
 
-    # start domain module
-    url = 'http://'+ request.cookies.get('Domain')+'/'
-    print(url)
-
-    crawling = WebCrawler()
-    result = crawling.run(url)
-    print(result)
-
-    # db insert
+    # db init
     input_db = init(host,port,user,password,db)
     moduel = "domain"
     type = "enterprice"
-    json_result = json.dumps(result)
     input_user = session['login_user']
+
+    domain = get_setting(input_db,'search_domain',input_user)
+    filter_key = get_setting(input_db,'keyword',input_user)
+
+    # start domain module
+    url = 'http://'+ domain +'/'
+    #print(url)
+    
+    crawling = WebCrawler(filter_key)
+    result = crawling.run(url)
+    #print(result)
+    json_result = json.dumps(result)
+
+    # db insert
     insert(input_db, moduel, type, json_result, input_user)
 
     return render_template("domain_result.html", filter_keyword=crawling.keyword_str, result=result)
