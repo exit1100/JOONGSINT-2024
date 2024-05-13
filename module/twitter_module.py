@@ -1,13 +1,14 @@
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 # pip install webdriver-manager
 from selenium.webdriver.common.by import By
 import time
-import sys
-from config import Twitter_ID, Twitter_PW
+import json
+from config import Twitter_ID, Twitter_PW, host, port, user, password, db
+from module.db_module import init, insert, get_setting
 
 
 twitter_module = Blueprint("twitter_module", __name__)
@@ -23,7 +24,7 @@ def twitter_result():
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(executable_path='app/chromedriver.exe', options=options)
         
-        def __init__(self, username):
+        def __init__(self, username):            
             self.username = username
             self.valError = False
             
@@ -143,14 +144,24 @@ def twitter_result():
             }
             return profile_data
 
-    find_name = request.cookies.get("NAME")
-
+    #find_name = request.cookies.get("NAME")
+    input_db = init(host,port,user,password,db)
+    input_user = session['login_user']
+    find_name = get_setting(input_db,'search_ID',input_user)
+    print(find_name)
+    
     scraper = SNSProfileScraper(find_name)
     scraper.login_twitter(Twitter_ID, Twitter_PW)
     twitter_profile = scraper.scrape_twitter_profile()
-
     result ={}
-
     result['twitter'] = twitter_profile
 
+    module = "twitter"
+    type = "enterprice"
+    json_result = json.dumps(result['twitter'])
+    print("json_result: ", json_result)
+    
+    input_db = init(host,port,user,password,db)
+    insert(input_db, module, type, json_result, input_user)
+    
     return render_template("twitter_result.html", result=result)

@@ -17,7 +17,7 @@ def insert(db, moduel, type, json_result, user):
 
     cursor = db.cursor()
 
-    cursor.execute("INSERT INTO result (moduel, type, result, user) VALUES (%s, %s, %s, %s)", (moduel, type, json_result, user))
+    cursor.execute("INSERT INTO result (module, type, result, user) VALUES (%s, %s, %s, %s)", (moduel, type, json_result, user))
 
     db.commit()
     db.close()
