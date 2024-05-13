@@ -15,9 +15,8 @@ from module.db_module import init, insert, get_setting
 
 domain_module = Blueprint("domain_module", __name__)
 
-@domain_module.route("/domain_result", methods=["POST"])
+@domain_module.route("/domain_result", methods=["GET", "POST"])
 def domain_result():
-
     class WebCrawler:
         def __init__(self, filter_key=None, options=None):
             options=Options()
@@ -63,7 +62,7 @@ def domain_result():
                 soup = BeautifulSoup(html, 'html.parser')
                 if (url_search==1):
                     return soup
-
+                
                 if (filter==True):
                     filter_flag = False
                     for target_string in self.keyword_list:
