@@ -20,7 +20,7 @@ def insert(db, moduel, type, json_result, user):
     cursor.execute("INSERT INTO result (module, type, result, user) VALUES (%s, %s, %s, %s)", (moduel, type, json_result, user))
 
     db.commit()
-    db.close()
+    #db.close()
 
 
 def user_update(db,field,value,user):
@@ -30,7 +30,7 @@ def user_update(db,field,value,user):
     cursor.execute(query, (value, user))
 
     db.commit()
-    db.close()
+    #db.close()
 
 
 def get_setting(db,field,user):
@@ -44,7 +44,7 @@ def get_setting(db,field,user):
     data = cursor.fetchone()
 
     db.commit()
-    db.close()
+    #db.close()
 
     return data[0]
 

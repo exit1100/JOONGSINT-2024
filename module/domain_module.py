@@ -142,10 +142,8 @@ def domain_result():
     input_user = session['login_user']
 
     domain = get_setting(input_db,'search_domain',input_user)
-    input_db.close()
 
     filter_key = get_setting(input_db,'keyword',input_user)
-    input_db.close()
 
     # start domain module
     url = 'http://'+ domain +'/'
@@ -159,5 +157,5 @@ def domain_result():
     # db insert
     insert(input_db, moduel, type, json_result, input_user)
     input_db.close()
-
+    
     return render_template("domain_result.html", filter_keyword=crawling.keyword_str, result=result)
