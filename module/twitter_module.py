@@ -1,9 +1,6 @@
 
 from flask import Blueprint, render_template, request, session
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-# pip install webdriver-manager
 from selenium.webdriver.common.by import By
 import time
 import json
@@ -21,7 +18,6 @@ def twitter_result():
         options.add_argument('--disable-extensions')
         options.add_argument('--disable-gpu')
         options.add_argument('--no-sandbox')
-        service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(executable_path='app/chromedriver.exe', options=options)
         
         def __init__(self, username):            
