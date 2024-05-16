@@ -140,11 +140,12 @@ def twitter_result():
             }
             return profile_data
 
-    #find_name = request.cookies.get("NAME")
+    # find_name = request.cookies.get("NAME")
+    # 쿠키 방식에서 DB 방식으로 전환함에 따라 주석 처리
     input_db = init(host,port,user,password,db)
     input_user = session['login_user']
     find_name = get_setting(input_db,'search_ID',input_user)
-    print(find_name)
+    input_db.close()
     
     scraper = SNSProfileScraper(find_name)
     scraper.login_twitter(Twitter_ID, Twitter_PW)
@@ -156,8 +157,8 @@ def twitter_result():
     type = "enterprice"
     json_result = json.dumps(result['twitter'])
     print("json_result: ", json_result)
-    
     input_db = init(host,port,user,password,db)
     insert(input_db, module, type, json_result, input_user)
+    input_db.close()
     
     return render_template("twitter_result.html", result=result)
