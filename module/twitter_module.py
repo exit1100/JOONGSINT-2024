@@ -1,7 +1,10 @@
 
 from flask import Blueprint, render_template, request, session
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 import json
 from config import Twitter_ID, Twitter_PW, host, port, user, password, db
@@ -13,48 +16,59 @@ twitter_module = Blueprint("twitter_module", __name__)
 @twitter_module.route("/twitter_result", methods=["POST"])
 def twitter_result():
     class SNSProfileScraper:
+        service = Service(executable_path='app/chromedriver')
         options = webdriver.ChromeOptions()
-        options.add_argument('headless')
+        options.add_argument('--headless')
         options.add_argument('--disable-extensions')
         options.add_argument('--disable-gpu')
         options.add_argument('--no-sandbox')
-        driver = webdriver.Chrome(executable_path='app/chromedriver.exe', options=options)
+        driver = webdriver.Chrome(service=service, options=options)
         
         def __init__(self, username):            
             self.username = username
             self.valError = False
+        
+        def close_driver(self):
+            self.driver.close()
             
         def chk_username(self):
+            print(self.username)
             if self.username == None:
                 self.valError = True
             # username이 None이면 에러
             else:
                 self.username = str(self.username).replace(' ', '').replace('\t', '').replace('\n', '')
-                if self.username == '':
+                if (self.username == '') or (self.username == 'none'):
                     self.valError = True
             # username이 공백이면 에러
             
         def login_twitter(self, login_name, login_pw):
-            self.driver.get('https://twitter.com/i/flow/login')
-            time.sleep(3)
-            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/label/div/div[2]/div/input').send_keys(login_name)
+            self.driver.get('https://x.com/i/flow/login')
+            element = WebDriverWait(self.driver, 10).until(
+                EC.visibility_of_element_located((By.NAME, 'text'))
+            )
+            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[4]/label/div/div[2]/div/input').send_keys(login_name)
             # ID 또는 이메일 주소 입력
-            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[6]/div').click()
+            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/button[2]/div').click()
             # 확인 버튼 클릭
-            time.sleep(3)
-            message = self.driver.find_element(By.XPATH, '//*[@id="modal-header"]/span/span').text
-            if message == '휴대폰 번호 또는 사용자 아이디 입력':
-            # 비정상적인 로그인 다수 시도 예외 처리
-                self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div[2]/label/div/div[2]/div/input').send_keys(login_name)
-                # ID 또는 전화번호 입력
-                self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div/div/div').click()
-                # 확인 버튼 클릭
-                time.sleep(3)    
-            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[2]/div[1]/input').send_keys(login_pw)
+            try:
+                message = self.driver.find_element(By.XPATH, '//*[@id="modal-header"]/span/span').text
+                if message == '휴대폰 번호 또는 사용자 아이디 입력':
+                # 비정상적인 로그인 다수 시도 예외 처리
+                    self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div[2]/label/div/div[2]/div/input').send_keys(login_name)
+                    # ID 또는 전화번호 입력
+                    self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div/div/div').click()
+                    # 확인 버튼 클릭
+            except:
+                pass
+            element = WebDriverWait(self.driver, 10).until(
+                EC.visibility_of_element_located((By.NAME, 'password'))
+            )
+            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[2]/div[1]/input').send_keys(login_pw)
             # 패스워드 입력
-            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[1]/div/div/div/div').click()
+            self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[1]/div/div/button/div').click()
             # 확인 버튼 클릭
-            time.sleep(3)
+            self.driver.implicitly_wait(3)
             
         def scrape_twitter_profile(self):
             self.chk_username()
@@ -71,8 +85,8 @@ def twitter_result():
                 return profile_data
             
             
-            self.driver.get('https://twitter.com/'+self.username)
-            time.sleep(3)
+            self.driver.get('https://x.com/'+self.username)
+            self.driver.implicitly_wait(3)
         
             # [*] 트위터 프로필 구조
             #   // 프로필 이미지 (고정)
@@ -84,7 +98,6 @@ def twitter_result():
             #   // 생년월일 (유동)
             #   // 최초 가입일 (고정)
             
-
             try:
                 profile_img = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div/div/div/div[1]/div[1]/div[2]/div/div[2]/div/a/div[3]/div/div[2]/div/img').get_property('src')
                 name = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div/div/div/div[2]/div[1]/div/div[1]/div/div/span/span[1]').text
@@ -150,6 +163,7 @@ def twitter_result():
     scraper = SNSProfileScraper(find_name)
     scraper.login_twitter(Twitter_ID, Twitter_PW)
     twitter_profile = scraper.scrape_twitter_profile()
+    scraper.close_driver()
     result ={}
     result['twitter'] = twitter_profile
 
