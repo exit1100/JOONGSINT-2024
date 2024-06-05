@@ -9,19 +9,24 @@ import time
 import json
 from config import Twitter_ID, Twitter_PW, host, port, user, password, db
 from module.db_module import init, insert, get_setting
-
+from module.login_module import login_required
 
 twitter_module = Blueprint("twitter_module", __name__)
 
 @twitter_module.route("/twitter_result", methods=["POST"])
+@login_required
 def twitter_result():
     class SNSProfileScraper:
-        service = Service(executable_path='app/chromedriver')
+        service = Service(executable_path=r'/home/ubuntu/JOONGSINT-2024/app/chromedriver')
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
+        options.add_argument('headless')
         options.add_argument('--disable-extensions')
         options.add_argument('--disable-gpu')
         options.add_argument('--no-sandbox')
+        options.add_argument('--lang=ko_KR.UTF-8')
+        options.add_argument("--disable-setuid-sandbox")
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])
         driver = webdriver.Chrome(service=service, options=options)
         
         def __init__(self, username):            
@@ -32,7 +37,6 @@ def twitter_result():
             self.driver.close()
             
         def chk_username(self):
-            print(self.username)
             if self.username == None:
                 self.valError = True
             # username이 None이면 에러
@@ -44,13 +48,15 @@ def twitter_result():
             
         def login_twitter(self, login_name, login_pw):
             self.driver.get('https://x.com/i/flow/login')
-            element = WebDriverWait(self.driver, 10).until(
+            print('트위터 로그인 페이지 접속')
+            element = WebDriverWait(self.driver, 120).until(
                 EC.visibility_of_element_located((By.NAME, 'text'))
             )
             self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[4]/label/div/div[2]/div/input').send_keys(login_name)
             # ID 또는 이메일 주소 입력
             self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/button[2]/div').click()
             # 확인 버튼 클릭
+            print('트위터 이메일 주소 입력')
             try:
                 message = self.driver.find_element(By.XPATH, '//*[@id="modal-header"]/span/span').text
                 if message == '휴대폰 번호 또는 사용자 아이디 입력':
@@ -61,13 +67,14 @@ def twitter_result():
                     # 확인 버튼 클릭
             except:
                 pass
-            element = WebDriverWait(self.driver, 10).until(
+            element = WebDriverWait(self.driver, 120).until(
                 EC.visibility_of_element_located((By.NAME, 'password'))
             )
             self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[2]/div[1]/input').send_keys(login_pw)
             # 패스워드 입력
             self.driver.find_element(By.XPATH, '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[1]/div/div/button/div').click()
             # 확인 버튼 클릭
+            print('트위터 패스워드 입력')
             self.driver.implicitly_wait(3)
             
         def scrape_twitter_profile(self):
@@ -84,7 +91,7 @@ def twitter_result():
                 }
                 return profile_data
             
-            
+            print('트위터 대상 페이지 접속')
             self.driver.get('https://x.com/'+self.username)
             self.driver.implicitly_wait(3)
         
@@ -98,21 +105,21 @@ def twitter_result():
             #   // 생년월일 (유동)
             #   // 최초 가입일 (고정)
             
-            try:
-                profile_img = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div/div/div/div[1]/div[1]/div[2]/div/div[2]/div/a/div[3]/div/div[2]/div/img').get_property('src')
-                name = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div/div/div/div[2]/div[1]/div/div[1]/div/div/span/span[1]').text
-                id = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div/div/div/div[2]/div[1]/div/div[2]/div/div/div/span').text
-            except:
-                profile_data = {
-                    'sns' : 'twitter',
-                    'name': '아이디가 올바르지 않습니다.',
-                    'screen_name': '',
-                    'bio':  '',
-                    'location': '',
-                    'profile_img': '',
-                    'joined_date': ''
-                }
-                return profile_data
+            #try:
+            profile_img = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div/div/div/div[1]/div[1]/div[2]/div/div[2]/div/a/div[3]/div/div[2]/div/img').get_property('src')
+            name = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div/div/div/div[2]/div[1]/div/div[1]/div/div/span/span[1]').text
+            id = self.driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[3]/div/div/div/div/div[2]/div[1]/div/div[2]/div/div/div/span').text
+            # except:
+            #     profile_data = {
+            #         'sns' : 'twitter',
+            #         'name': '아이디가 올바르지 않습니다.',
+            #         'screen_name': '',
+            #         'bio':  '',
+            #         'location': '',
+            #         'profile_img': '',
+            #         'joined_date': ''
+            #     }
+            #     return profile_data
             
             summary= ''
             location = ''
@@ -159,10 +166,14 @@ def twitter_result():
     input_user = session['login_user']
     find_name = get_setting(input_db,'search_ID',input_user)
     input_db.close()
+    print(find_name)
     
     scraper = SNSProfileScraper(find_name)
+    print('driver load.')
     scraper.login_twitter(Twitter_ID, Twitter_PW)
+    print('twitter login.')
     twitter_profile = scraper.scrape_twitter_profile()
+    print('twitter scraper.')
     scraper.close_driver()
     result ={}
     result['twitter'] = twitter_profile
