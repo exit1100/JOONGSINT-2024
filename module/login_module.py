@@ -1,4 +1,5 @@
-from flask import Flask, session, render_template, redirect, request, url_for, Blueprint
+from flask import Flask, session, render_template, redirect, request, url_for, Blueprint, g
+from functools import wraps
 from datetime import timedelta
 import pymysql
 import os
@@ -44,3 +45,17 @@ def login_result():
 def logout():
     session.pop('login_user', None)
     return render_template("index.html")
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'login_user' not in session:
+            # 로그인하지 않은 사용자는 error_page로 리다이렉트
+            return redirect(url_for('login_module.error_page'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+@login_module.route("/error2")
+def error_page():
+    # error2.html에 필요한 메시지와 버튼의 링크를 전달
+    return render_template("error2.html", message="로그인한 사용자만 이용할 수 있는 기능입니다.", login_url=url_for('login_module.login_result'), home_url=url_for('index'))
