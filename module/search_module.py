@@ -12,10 +12,12 @@ import time
 import pymysql
 import os
 import json
+from module.login_module import login_required 
 
 search_module = Blueprint("search_module", __name__)
 
 @search_module.route("/search_result", methods=["POST"])
+@login_required
 def search_result():
     class SearchAgent:
         def __init__(self, google_api_key, google_cse_id, naver_client_id, naver_client_secret):

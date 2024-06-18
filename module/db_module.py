@@ -13,11 +13,11 @@ def init(host,port,user,password,db):
     return db
 
 
-def insert(db, moduel, type, json_result, user):
+def insert(db, module, type, json_result, user):
 
     cursor = db.cursor()
 
-    cursor.execute("INSERT INTO result (module, type, result, user) VALUES (%s, %s, %s, %s)", (moduel, type, json_result, user))
+    cursor.execute("INSERT INTO result (module, type, result, user) VALUES (%s, %s, %s, %s)", (module, type, json_result, user))
 
     db.commit()
     #db.close()
@@ -50,7 +50,7 @@ def get_setting(db,field,user):
 def get_result(db,user):
     cursor = db.cursor()
 
-    cursor.execute("select moduel,date from result WHERE user = %s", (user))
+    cursor.execute("select module,date from result WHERE user = %s", (user))
     
     data = cursor.fetchall()
 
@@ -63,7 +63,7 @@ def get_only_result(db,user,module,date):
     cursor = db.cursor()
 
 
-    cursor.execute("select result from result WHERE user = %s and moduel = %s and date = %s", (user,module,date))
+    cursor.execute("select result from result WHERE user = %s and module = %s and date = %s", (user,module,date))
     
     data = cursor.fetchone()
 

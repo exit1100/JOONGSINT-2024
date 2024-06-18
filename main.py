@@ -5,10 +5,10 @@ from datetime import timedelta
 # from module.sns_module import sns_module
 from module.insta_module import insta_module
 from module.facebook_module import facebook_module
-from module.twitter_module import twitter_module
-from module.search_module import search_module
+#from module.twitter_module import twitter_module
+#from module.search_module import search_module
 from module.domain_module import domain_module
-from module.network_module import network_module
+#from module.network_module import network_module
 from module.github_module import github_module
 from module.report_module import report_module
 from module.reportlist_module import reportlist_module
@@ -23,10 +23,10 @@ app = Flask(__name__)
 # app.register_blueprint(sns_module)
 app.register_blueprint(insta_module)
 app.register_blueprint(facebook_module)
-app.register_blueprint(twitter_module)
-app.register_blueprint(search_module)
+#app.register_blueprint(twitter_module)
+#app.register_blueprint(search_module)
 app.register_blueprint(domain_module)
-app.register_blueprint(network_module)
+#app.register_blueprint(network_module)
 app.register_blueprint(github_module)
 app.register_blueprint(report_module)
 app.register_blueprint(reportlist_module)
@@ -50,6 +50,45 @@ def index():
 @app.route("/domain")
 def domain():
     return render_template('loading.html', router='domain_result')
+
+
+
+@app.route("/github")
+def github():
+    return render_template('loading.html', router='github_result')
+
+
+@app.route("/facebook")
+def facebook():
+    return render_template('loading.html', router='facebook_result')
+
+@app.route("/insta")
+def insta():
+    return render_template('loading.html', router='insta_result')
+
+@app.route("/twitter")
+def twitter():
+    return render_template('loading.html', router='twitter_result')
+
+@app.route("/sns")
+def sns():
+    return render_template('loading.html', router='sns_result')
+
+@app.route("/network")
+def network():
+    return render_template('loading.html', router='network_result')
+
+@app.route("/search")
+def search():
+    return render_template('loading.html', router='search_result')
+
+
+
+
+
+
+
+
 
 
 @app.route("/login")

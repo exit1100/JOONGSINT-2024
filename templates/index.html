@@ -8,72 +8,82 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Joongsint - Open-Source Intelligence Solution</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="static/images/favicon.ico" />
-    <!-- Bootstrap icons-->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-  </head>
-  <body class="bg-dark">
-    <!-- Responsive navbar-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container px-lg-5">
-        <a class="navbar-brand" href="#!">JoongSint</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#!">Home</a>
-            </li>
-            {% if user_id %}
-              <li class="nav-item">
-                <a class="nav-link" href="/setting">Setting</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="#!">Welcome, {{ user_id }}!</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="/logout">Logout</a>
-              </li>
-            {% else %}
-              <li class="nav-item">
-                  <a class="nav-link" href="/login">Login</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="/register">Register</a>
-              </li>
-            {% endif %}
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <!-- Header-->
-    <header class="py-5 bg-dark">
-      <div class="container px-lg-5">
-        <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
-          <div class="m-4 m-lg-5">
-            <h1 class="display-5 fw-bold">welcome Joongsint!!!!!</h1>
-            <p class="fs-4">
-              Gather all the information you need in one place with our OSINT
-              webpage that offers comprehensive insights using data collected
+    <title>Joongsint - O<!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="utf-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <meta name="description" content="" />
+          <meta name="author" content="" />
+          <title>Joongsint - Open-Source Intelligence Solution</title>
+          <!-- Favicon-->
+          <link rel="icon" type="image/x-icon" href="static/images/favicon.ico" />
+          <!-- Bootstrap icons-->
+          <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+            rel="stylesheet"
+          />
+          <!-- Core theme CSS (includes Bootstrap)-->
+          <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+      
+        </head>
+        <body class="bg-dark">
+          <!-- Responsive navbar-->
+          <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-lg-5">
+              <a class="navbar-brand" href="#!">JoongSint</a>
+              <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#!">Home</a>
+                  </li>
+                  {% if user_id %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="/setting">Setting</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#!">Welcome, {{ user_id }}!</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                  {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Register</a>
+                    </li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+          </nav>
+          <!-- Header-->
+          <header class="py-5 bg-dark">
+            <div class="container px-lg-5">
+              <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+                <div class="m-4 m-lg-5">
+                  <h1 class="display-5 fw-bold">welcome Joongsint!!!!!</h1>
+                  <p class="fs-4">
+                    Gather all the information you need in one place with our OSINT
+                    webpage that offers comprehensive insights using data collected
               from network, SNS, Domain, search engines, CVE, and GPT.
               <p>당신이 원하는 모든 정보를 한 곳에서 모아보세요. 네트워크, SNS,
                 Domain, 검색 엔진, CVE 및 GPT에서 수집한 데이터로 더 나은 인사이트를
@@ -108,10 +118,10 @@
                   <button class="btn btn-outline-success" type="submit">search</button>
                 </form>
                 <dvi class="d-flex align-items-center justify-content-between text-xs">
-                  <form class="d-grid mt-4" form action="/insta_result" method="POST">
+                  <form class="d-grid mt-4" form action="/insta" method="GET">
                     <button class="btn btn-outline-success" type="submit">instagram</button>
                   </form>
-                  <form class="d-grid mt-4" form action="/facebook_result" method="POST">
+                  <form class="d-grid mt-4" form action="/facebook" method="GET">
                     <button class="btn btn-outline-success" type="submit">facebook</button>
                   </form>
                   <form class="d-grid mt-4" form action="/twitter_result" method="POST">
@@ -171,6 +181,7 @@
                 </p>
                 <form class="d-grid mt-4" form action="/network_result" method="POST">
                   <button class="btn btn-outline-success" type="submit">search</button>
+                  
                 </form>
               </div>
             </div>

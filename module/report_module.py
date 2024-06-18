@@ -3,10 +3,12 @@ from datetime import datetime
 from config import host,port,user,password,db
 from module.db_module import init, get_only_result
 import json
+from module.login_module import login_required 
 
 report_module = Blueprint("report_module", __name__)
 
 @report_module.route("/report_result", methods=["POST"])
+@login_required
 def report_result():
 
     input_db = init(host,port,user,password,db)

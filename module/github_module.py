@@ -6,10 +6,12 @@ from config import host, port, user, password, db
 from module.db_module import init, insert, get_setting
 import pymysql
 import json
+from module.login_module import login_required 
 
 github_module = Blueprint("github_module", __name__)
 
 @github_module.route("/github_result", methods=["POST"])
+@login_required
 def github_result():
 
     class GithubAnalyzer:

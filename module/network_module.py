@@ -10,11 +10,12 @@ from urllib.parse import urlparse
 import pandas
 import time, os
 from datetime import datetime
-
+from module.login_module import login_required 
 
 network_module = Blueprint("network_module", __name__)
 
 @network_module.route('/network_result', methods=["POST"])
+@login_required
 def network_result():
     
     class DomainScanner:

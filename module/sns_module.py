@@ -10,10 +10,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 import time, re
 from config import Instagram_ID ,Instagram_PW , Facebook_ID, Facebook_PW
+from module.login_module import login_required 
 
 sns_module = Blueprint("sns_module", __name__)
 
 @sns_module.route("/sns_result", methods=["POST"])
+@login_required
 def sns_result():
     class SNSProfileScraper:
         def __init__(self, username , driver_path):

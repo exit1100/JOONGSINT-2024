@@ -9,11 +9,12 @@ import ast
 from config import host,port,user,password,db
 from module.db_module import init, get_result
 import datetime
+from module.login_module import login_required 
 
 reportlist_module = Blueprint("reportlist_module", __name__)
 
 @reportlist_module.route("/reportlist_result", methods=["POST"])
-
+@login_required
 def reportlist_result():
 
     input_db = init(host,port,user,password,db)

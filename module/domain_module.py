@@ -11,22 +11,26 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 from config import host, port, user, password, db
 from module.db_module import init, insert, get_setting
-
+from module.login_module import login_required 
 
 domain_module = Blueprint("domain_module", __name__)
 
 @domain_module.route("/domain_result", methods=["GET", "POST"])
+@login_required
 def domain_result():
     class WebCrawler:
         def __init__(self, filter_key=None, options=None):
-            options=Options()
+            #options=Options()
+            options = webdriver.ChromeOptions()
             options.add_argument('headless')
             options.add_argument('--disable-extensions')
             options.add_argument('--disable-gpu')
             options.add_argument('--no-sandbox')
             options.add_argument('--lang=ko_KR.UTF-8')
-            service = Service(executable_path=r'app/chromedriver')
-            self.driver=webdriver.Chrome(service=service,options=options)
+            self.driver = webdriver.Chrome(executable_path=r'app/chromedriver', options=options)
+            
+            #service = Service(executable_path=r'app/chromedriver')
+            #self.driver=webdriver.Chrome(service=service,options=options)
 
             self.category = ['keywords', 'emails', 'phones']
             self.all_url = []

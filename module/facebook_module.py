@@ -14,10 +14,12 @@ import pymysql
 import os
 import json
 from module.db_module import init, insert, get_setting
+from module.login_module import login_required 
 
 facebook_module = Blueprint("facebook_module", __name__)
 
-@facebook_module.route("/facebook_result", methods=["POST"])
+@facebook_module.route("/facebook_result", methods=["GET"])
+@login_required
 def facebook_result():
     class SNSProfileScraper:
         def __init__(self, username , driver_path):
@@ -32,12 +34,16 @@ def facebook_result():
             time.sleep(3)
 
             username_input = driver.find_element(By.CSS_SELECTOR, "input[name='email']")
+            #username_input = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="email"]')))
             password_input = driver.find_element(By.CSS_SELECTOR, "input[name='pass']")
+            #password_input = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="pass"]')))
 
             username_input.send_keys(login_name)
             password_input.send_keys(login_pw)
 
-            login_button = driver.find_element(By.XPATH , "//button[@type='button']")
+            #login_button = driver.find_element(By.XPATH , "//button[@type='button']")
+            login_button = driver.find_element(By.CSS_SELECTOR , "button[type='submit']")
+            #login_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "button[type='submit']")))
             
             login_button.click()
 
@@ -114,8 +120,8 @@ def facebook_result():
                     return profile_data
                 except:
                     return None
-            except:
-                return None
+            except Exception as e:
+                return str(e)
             
         def get_facebook_about(self, driver, username, login_name, login_pw):
             try:
@@ -138,6 +144,7 @@ def facebook_result():
                 try:
                     contact = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, f'#{img_text} > div > div:nth-child(1) > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x78zum5.xdt5ytf.x1t2pt76 > div > div > div.x6s0dn4.x78zum5.xdt5ytf.x193iq5w > div > div > div > div:nth-child(1) > div > div > div > div > div.x1iyjqo2 > div > div')))
                     contact = contact.text
+                    print(contact)
                 except:
                     contact = '1'
                     
@@ -165,7 +172,7 @@ def facebook_result():
 
 
 
-    driver_path = 'app/chromedriver.exe'
+    driver_path = 'app/chromedriver'
     input_db = init(host,port,user,password,db)
     input_user = 	session['login_user']
 
