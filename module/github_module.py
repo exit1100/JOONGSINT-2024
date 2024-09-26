@@ -17,8 +17,7 @@ def github_result():
     class GithubAnalyzer:
         def __init__(self, access_token, username, keywords):
             self.access_token = access_token
-            # self.username = username
-            self.username = 'lbcsultan'
+            self.username = username
             self.headers = {
                 "Authorization": f"Bearer {self.access_token}",
                 "User-Agent": "Mozilla/5.0",
@@ -139,9 +138,8 @@ def github_result():
 
                 for repo_name in repository_names:
                     self.repo_list = []
-                    if repo_name == "hcj2" :
-                        repo_result = self.traverse_directory(repo_name)
-                        result[repo_name] = repo_result
+                    repo_result = self.traverse_directory(repo_name)
+                    result[repo_name] = repo_result
                     time.sleep(1)
             del_list = []
             for i in range(len(result)):
