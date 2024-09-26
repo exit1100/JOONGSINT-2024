@@ -1,0 +1,14 @@
+Flask
+beautifulsoup4==4.10.0
+selenium
+requests
+werkzeug
+google-api-python-client
+openai
+dnspython
+python-whois
+pandas
+python-docx
+comtypes
+pymysql
+webdriver_manager
