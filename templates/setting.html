@@ -18,8 +18,16 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-8">
-            <div class="page-content">
-              <h2 class="section-title">Setting Value</h2>
+            <div class="page-content" style="padding: 19.9px">
+              <div
+                class="d-flex align-items-center justify-content-between mt-4"
+              >
+                <h2 class="section-title">Setting Value</h2>
+                <div class="d-flex">
+                  <a class="btn btn-outline-success ms-3" href="/">나가기</a>
+                </div>
+              </div>
+
               <p class="section-description">
                 데이터 수집에 필요한 값들을 입력해주세요
               </p>
@@ -96,18 +104,20 @@
                   </div>
                 </div>
               </form>
-              <h2 class="section-title mt-5">Save Value</h2>
-              <!-- 새로고침 버튼 -->
-              <button
-                class="btn btn-secondary mt-4 refresh-btn"
-                onclick="location.reload();"
+
+              <div
+                class="d-flex align-items-center justify-content-between mt-4"
               >
-                새로고침
-              </button>
-              <p class="section-description">저장한 값을 확인하세요.</p>
+                <h2 class="section-title">Save Value</h2>
+                <button
+                  class="btn btn-secondary refresh-btn ms-3"
+                  onclick="location.reload();"
+                >
+                  Update
+                </button>
+              </div>
               <div class="card mt-4" id="savedValues">
                 <div class="card-body">
-                  <!-- 저장된 값들을 여기에 표시 -->
                   <p>Keyword: {{ saved_values[0] }}</p>
                   <p>Search ID: {{ saved_values[1] }}</p>
                   <p>Search Domain: {{ saved_values[2] }}</p>
@@ -119,9 +129,7 @@
           </div>
         </div>
       </div>
-      <div class="container">
-        <a class="container btn btn-outline-success" href="/">돌아가기</a>
-      </div>
+
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="static/js/option.js"></script>
     </section>
