@@ -43,8 +43,8 @@ def domain_result():
             self.keyword_str = 'none'
             self.filter_flag = False
             self.capute_path = './capture_page'
-
-            if filter_key is not None and filter_key != '' :
+            
+            if filter_key is not None and filter_key != 'none' and filter_key != '':
                 self.filter_flag = True
                 self.keyword_str = filter_key
                 self.keyword_list = [value.strip() for value in self.keyword_str.split(',')]
