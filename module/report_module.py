@@ -39,9 +39,9 @@ def report_result():
     elif module == 'domain':
         return render_template("domain_result.html", result=json_result)
     elif module == 'github':
-        result_data = {}
-        result_data['github'] = json_result
-        return render_template("github_result.html", result=result_data)
+        result_data = json_result
+        pdf_links = result_data.get('pdf_link', [])
+        return render_template("github_result.html", result=result_data, pdf_link=pdf_links)
     elif module == 'network':
         return render_template("twitter_result.html", result=json_result)
     elif module == 'search':
