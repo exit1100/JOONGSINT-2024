@@ -2,12 +2,9 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>search_result</title>
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link
-      href="{{ url_for('static', filename='css/styles.css') }}"
-      rel="stylesheet"
-    />
+    <title>Search Results</title>
+    <!-- Core theme CSS (includes Bootstrap) -->
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
     <style>
       body {
         margin: 0;
@@ -21,7 +18,7 @@
         padding: 20px;
       }
 
-      .search_result {
+      .result-card {
         background-color: #fff;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -33,21 +30,9 @@
         margin: 0 0 10px 0;
       }
 
-      .Result,
-      .gpt_answer {
+      .Result-section {
         display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .Result img,
-      .gpt_answer img {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-right: 20px;
+        flex-direction: column;
       }
 
       p {
@@ -57,45 +42,63 @@
         font-weight: bold;
       }
 
-      .Result p,
-      .gpt_answer p {
-        flex-basis: 100%;
+      .Result-section p {
         text-align: left;
         font-weight: normal;
       }
 
-      /* Add style for each result item */
-      .result-item {
-        margin-bottom: 10px;
+      .btn-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .btn-container a {
+        text-decoration: none;
+        color: #fff;
+        background-color: #007bff;
+        padding: 10px 20px;
+        border-radius: 5px;
+      }
+
+      .btn-container a:hover {
+        background-color: #0056b3;
       }
     </style>
   </head>
   <body>
-    <h1>Search Engines</h1>
-    <div class="search_result">
-      <h2>original_result</h2>
-      <div class="Result">
-        {% for item in onebon %}
-        <p class="result-item">{{ item }}</p>
+    <h1>Search Module</h1>
+
+    <!-- Original Results Section -->
+    <div class="result-card">
+      <h2>Original Results</h2>
+      <div class="Result-section">
+        {% for title, url in result.onebon %}
+        <div class="result-item">
+          <p><strong>Title:</strong> {{ title }}</p>
+          <p><strong>URL:</strong> <a href="{{ url }}" target="_blank">{{ url }}</a></p>
+        </div>
         {% endfor %}
       </div>
     </div>
-    <div class="search_result">
-      <h2>search_result</h2>
-      <div class="Result">
-        {% for item in result %}
-        <p class="result-item">{{ item }}</p>
+
+    <!-- Search Results Section -->
+    <div class="result-card">
+      <h2>Search Results with Contact Information</h2>
+      <div class="Result-section">
+        {% for item in result.result %}
+        <div class="result-item">
+          <p><strong>Title:</strong> {{ item[0] }}</p>
+          <p><strong>URL:</strong> <a href="{{ item[1] }}" target="_blank">{{ item[1] }}</a></p>
+          <p><strong>Phone:</strong> {{ item[2][0] if item|length > 2 and item[2] and item[2][0] else 'N/A' }}</p>
+          <p><strong>Email:</strong> {{ item[2][1] if item|length > 2 and item[2] and item[2][1] else 'N/A' }}</p>
+        </div>
         {% endfor %}
       </div>
     </div>
-    <!-- <div class="search_result">
-      <h2>gpt_answer</h2>
-      <div class="gpt_answer">
-        <p>{{ gpt_answer }}</p>
-      </div>
-    </div> -->
-    <div class="container my-5">
-      <a class="container btn btn-outline-primary" href="/">돌아가기</a>
+
+    <!-- Back Button -->
+    <div class="btn-container">
+      <a href="/">돌아가기</a>
     </div>
   </body>
 </html>
