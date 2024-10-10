@@ -45,6 +45,10 @@ def report_result():
     elif module == 'network':
         return render_template("twitter_result.html", result=json_result)
     elif module == 'search':
-        return render_template("twitter_result.html", result=json_result)
+        result_data = {}
+        result_data['onebon'] = json_result.get('onebon', [])
+        result_data['result'] = json_result.get('result', [])
+        print(result_data)
+        return render_template("search_result.html", result=result_data)
     else:
         return render_template('reportlist_result.html')
