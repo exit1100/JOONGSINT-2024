@@ -10,23 +10,18 @@ report_module = Blueprint("report_module", __name__)
 @report_module.route("/report_result", methods=["POST"])
 @login_required
 def report_result():
-
     input_db = init(host,port,user,password,db)
     input_user = 	session['login_user']
     
     selected_value = request.form.get('report_select')
     tuple_value = eval(selected_value)
 
-
     # 튜플의 각 요소를 변수로 저장
     module, date_time = tuple_value
-
     result = get_only_result(input_db,input_user,module, date_time)
     
     # change json
     json_result = json.loads(result)
-
-
 
     if module == 'facebook':
         json_result['facebook']=json_result
@@ -37,7 +32,7 @@ def report_result():
         json_result['instagram']=json_result
         return render_template("insta_result.html", result=json_result)
     elif module == 'domain':
-        return render_template("domain_result.html", result=json_result)
+        return render_template("domain_result.html", result=json_result, date=date_time)
     elif module == 'github':
         result_data = json_result
         pdf_links = result_data.get('pdf_link', [])
