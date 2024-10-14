@@ -59,15 +59,14 @@
     </style>
   </head>
   <body>
-    
     <div class="container">
       <div class="form-container">
         <h2>Report List</h2>
-        <br>
+        <br />
         <form action="/report_result" method="post">
           <select name="report_select" id="report_select">
             {% for item in result %}
-              <option value="{{ item }}">{{ item }}</option>
+            <option value="{{ item }}">{{ item }}</option>
             {% endfor %}
           </select>
           <button class="button" type="submit">조회</button>
@@ -77,6 +76,5 @@
         </div>
       </div>
     </div>
-    
   </body>
 </html>
