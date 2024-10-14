@@ -22,10 +22,14 @@ def reportlist_result():
 
     list = get_result(input_db,input_user)
 
-   
+    # 날짜를 기준으로 내림차순 정렬
+    sorted_list = sorted(list, key=lambda item: item[1], reverse=True)
 
-    formatted_data = [(item[0], item[1].strftime('%Y-%m-%d %H:%M:%S')) for item in list]
+    # 데이터 포맷팅 (날짜 형식을 원하는 형태로 변환)
+    formatted_data = [(item[0], item[1].strftime('%Y-%m-%d %H:%M:%S')) for item in sorted_list]
+
     print(formatted_data)
     result = formatted_data
+
     return render_template("reportlist_result.html", result=result)
 
