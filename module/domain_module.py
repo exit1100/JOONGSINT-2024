@@ -27,10 +27,10 @@ def domain_result():
             options.add_argument('--disable-gpu')
             options.add_argument('--no-sandbox')
             options.add_argument('--lang=ko_KR.UTF-8')
-            #self.driver = webdriver.Chrome(executable_path=r'app/chromedriver', options=options)
+            self.driver = webdriver.Chrome(executable_path=r'app/chromedriver', options=options)
             
-            service = Service(executable_path=r'app/chromedriver')
-            self.driver=webdriver.Chrome(service=service,options=options)
+            #service = Service(executable_path=r'app/chromedriver')
+            #self.driver=webdriver.Chrome(service=service,options=options)
 
             self.category = ['keywords', 'emails', 'phones']
             self.all_url = []
