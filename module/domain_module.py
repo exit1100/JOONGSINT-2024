@@ -20,17 +20,17 @@ domain_module = Blueprint("domain_module", __name__)
 def domain_result():
     class WebCrawler:
         def __init__(self, filter_key=None, options=None):
-            #options=Options()
+            options=Options()
             options = webdriver.ChromeOptions()
             options.add_argument('headless')
             options.add_argument('--disable-extensions')
             options.add_argument('--disable-gpu')
             options.add_argument('--no-sandbox')
             options.add_argument('--lang=ko_KR.UTF-8')
-            self.driver = webdriver.Chrome(executable_path=r'app/chromedriver', options=options)
+            #self.driver = webdriver.Chrome(executable_path=r'app/chromedriver', options=options)
             
-            #service = Service(executable_path=r'app/chromedriver')
-            #self.driver=webdriver.Chrome(service=service,options=options)
+            service = Service(executable_path=r'app/chromedriver')
+            self.driver=webdriver.Chrome(service=service,options=options)
 
             self.category = ['keywords', 'emails', 'phones']
             self.all_url = []
@@ -42,7 +42,6 @@ def domain_result():
             self.all_phone = []
             self.keyword_str = 'none'
             self.filter_flag = False
-            self.capute_path = './capture_page'
             
             if filter_key is not None and filter_key != 'none' and filter_key != '':
                 self.filter_flag = True
@@ -59,10 +58,7 @@ def domain_result():
                         break
                     time.sleep(1)
 
-                # SPA WebPage HTML Crawling
                 html = self.driver.execute_script('return document.getElementsByTagName("html")[0].innerHTML;')
-
-                # BeautifulSoup html 추출
                 soup = BeautifulSoup(html, 'html.parser')
                 if (url_search==1):
                     return soup
@@ -92,20 +88,13 @@ def domain_result():
                     if phone not in self.all_phone:
                         self.all_phone.append(phone)
 
-                value = []
-                tmp = {}
-                for key in self.category:
-                    tmp[key] = locals()[key]
-                tmp['filter_keyword'] = self.keyword_str
-                value.append(tmp)
+                val = {}
+                val['keyword'] = keywords
+                val['email'] = emails
+                val['phone'] = phones
+                val['filter_keyword'] = self.keyword_str
+                self.result[url] = val
 
-                # URL Capture
-                #invalid_chars = r'[\\/:\*\?"<>\|]+' # 파일 이름으로 사용할 수 없는 문자들을 '_'로 치환
-                #filename = re.sub(invalid_chars, '_', url) + '.png'
-                #self.driver.set_window_size(1920, 1080)
-                #wait = WebDriverWait(self.driver, 10) # 페이지 로딩이 완료될 때까지 대기
-                #wait.until(EC.presence_of_element_located((By.XPATH, "//body")))
-                #self.driver.save_screenshot(f'{self.capute_path}/{filename}')
             except:
                 pass
 
@@ -128,31 +117,28 @@ def domain_result():
         def run(self, root_url):
             self.url_append(root_url, 1)
             print('keyword :',self.keyword_str)
-            #if not os.path.exists(self.capute_path):
-            #    os.makedirs(self.capute_path)
-
             for url in self.all_url:
                 print("[*] Target URL:" ,url, '###')
                 if (self.filter_flag) :
                     self.HTML_SRC(url, 0, True)   
                 else :
                     self.HTML_SRC(url)
-
-            self.result['keyword'] = self.all_keyword
-            self.result['email'] = self.all_email
-            self.result['phone'] = self.all_phone
-            self.result['search_url'] = self.search_url
             return self.result
+
+    def is_empty_result(result):
+        if isinstance(result, dict):
+            return all(isinstance(value, list) and len(value) == 0 for value in result.values())
+        return False
 
     # db init
     input_db = init(host,port,user,password,db)
     moduel = "domain"
     type = "enterprice"
     input_user = session['login_user']
-
-    domain = get_setting(input_db,'search_domain',input_user)
-
-    filter_key = get_setting(input_db,'keyword',input_user)
+    
+    #get db set
+    domain = get_setting(input_db, 'search_domain', input_user)
+    filter_key = get_setting(input_db, 'keyword', input_user)
 
     # start domain module
     url = 'http://'+ domain +'/'
@@ -162,9 +148,9 @@ def domain_result():
     result = crawling.run(url)
     #print(result)
     json_result = json.dumps(result)
-
-    # db insert
-    insert(input_db, moduel, type, json_result, input_user)
+    if not is_empty_result(result):
+        # db insert
+        insert(input_db, moduel, type, json_result, input_user)
     input_db.close()
 
     return render_template("domain_result.html", filter_keyword=crawling.keyword_str, result=result)

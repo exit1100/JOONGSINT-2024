@@ -8,6 +8,11 @@
       href="{{ url_for('static', filename='css/styles.css') }}"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
     <style>
       body {
         margin: 0;
@@ -70,36 +75,58 @@
     </style>
   </head>
   <body>
-    <h1>Domain Module</h1>
-    <pre style="margin-left: 15px">
-    키워드 필터링 : {{ filter_keyword }} </pre
-    >
-    <div class="domain-card">
-      <h2>email</h2>
-      <div class="email-info">
-        <!-- <img src="{{ result['email'] }}" alt="profile picture" /> -->
-        <p>{{ result['email'] }}</p>
+    <div class="container mt-5">
+      <h1>Domain Module</h1>
+      {% if filter_keyword %}
+      <div>
+        <pre style="margin-left: 15px">
+        Keyword Filtering : {{ filter_keyword }} </pre
+        >
       </div>
-    </div>
-    <div class="domain-card">
-      <h2>phone</h2>
-      <div class="phone-info">
-        <!-- <img src="{{ result['phone'] }}" alt="profile picture" /> -->
-        <p>{{ result['phone'] }}</p>
+      {% endif %} {% if date %}
+      <div class="date-info">
+        <pre style="margin-left: 15px">Execution Time: {{ date }}</pre>
       </div>
-    </div>
-    <div class="domain-card">
-      <h2>keyword</h2>
-      <div class="keyword-info">
-        <!--<img src="{{ result['keyweord'] }}" alt="profile picture" />-->
-        <p>{{ result['keyword'] }}</p>
+      {% endif %} {% for url, info in result.items() %} {% if info['email'] or
+      info['phone'] or info['keyword'] %}
+      <div class="domain-card">
+        <h3>
+          {{ url | replace('http://', '') | replace('https://', '') }} (<a
+            href="{{ url }}"
+            target="_blank"
+            ><i class="fas fa-external-link-alt fa-sm"></i></a
+          >)
+        </h3>
+
+        <br />
+        <div class="email-info mb-3">
+          <h5>Email</h5>
+          {% if info['email'] %}
+          <p>{{ info['email'] | join(', ') }}</p>
+          {% else %}
+          <p>No Email Information</p>
+          {% endif %}
+        </div>
+
+        <div class="phone-info mb-3">
+          <h5>Phone</h5>
+          {% if info['phone'] %}
+          <p>{{ info['phone'] | join(', ') }}</p>
+          {% else %}
+          <p>No Phone Information</p>
+          {% endif %}
+        </div>
+
+        <div class="keyword-info mb-3">
+          <h5>Keyword</h5>
+          {% if info['keyword'] %}
+          <p>{{ info['keyword'] | join(', ') }}</p>
+          {% else %}
+          <p>No Keyword Information</p>
+          {% endif %}
+        </div>
       </div>
-    </div>
-    <div class="domain-card">
-      <h2>search URL</h2>
-      <div class="keyword-info">
-        <p>{{ result['search_url'] }}</p>
-      </div>
+      {% endif %} {% endfor %}
     </div>
     <div class="container my-5">
       <a class="container btn btn-outline-primary" href="/">돌아가기</a>
