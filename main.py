@@ -4,7 +4,7 @@ from module.sns_module import sns_module
 from module.insta_module import insta_module
 from module.facebook_module import facebook_module
 from module.twitter_module import twitter_module
-from module.search_module import search_module
+#from module.search_module import search_module
 from module.domain_module import domain_module
 from module.github_module import github_module
 from module.report_module import report_module
@@ -22,7 +22,7 @@ app.register_blueprint(sns_module)
 app.register_blueprint(insta_module)
 app.register_blueprint(facebook_module)
 app.register_blueprint(twitter_module)
-app.register_blueprint(search_module)
+#app.register_blueprint(search_module)
 app.register_blueprint(domain_module)
 app.register_blueprint(github_module)
 app.register_blueprint(report_module)
